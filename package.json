@@ -77,6 +77,14 @@
     "vinyl-paths": "^2.1.0"
   },
   "dependencies": {
+    "@aurelia/jit": "^0.7.0-dev.202001131001",
+    "@aurelia/jit-html": "^0.7.0-dev.202001131001",
+    "@aurelia/jit-html-browser": "^0.7.0-dev.202001131001",
+    "@aurelia/kernel": "^0.7.0-dev.202001131001",
+    "@aurelia/router": "^0.7.0-dev.202001131001",
+    "@aurelia/runtime": "^0.7.0-dev.202001131001",
+    "@aurelia/runtime-html": "^0.7.0-dev.202001131001",
+    "@aurelia/runtime-html-browser": "^0.7.0-dev.202001131001",
     "aureliatoolbelt-thirdparty": "^1.0.9",
     "bluebird": "^3.5.1",
     "bootstrap": "^4.1.3",
