@@ -1,26 +1,25 @@
 import { SharedIndex } from './../../../utilities/vanilla/sharedIndex';
 
-import { customElement, bindable, bindingMode, inject, containerless, DOM } from 'aurelia-framework';
+import { customElement, bindable, BindingMode, containerless, INode } from '@aurelia/runtime';
 
 @customElement('aut-divider')
-@inject(Element, SharedIndex)
 @containerless()
 export class DividerCustomElement {
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public vertical: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public color: string = '#b5b5b5';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public backgroundColor: string = '#fff';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public lineColor: string = '#dbdbdb';
+  @bindable({ mode: BindingMode.oneTime }) public id: string;
+  @bindable({ mode: BindingMode.toView }) public class: string;
+  @bindable({ mode: BindingMode.toView }) public vertical: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public color: string = '#b5b5b5';
+  @bindable({ mode: BindingMode.toView }) public backgroundColor: string = '#fff';
+  @bindable({ mode: BindingMode.toView }) public lineColor: string = '#dbdbdb';
 
 
   private divider: HTMLDivElement;
 
-  constructor(private element: Element, private sharedIndex: SharedIndex) {
+  constructor(@INode private element: Element, private sharedIndex: SharedIndex) {
   }
 
-  private attached() {
+  private afterAttach() {
 
     this.vertical = (this.vertical === '' && this.element.hasAttribute('vertical')) || this.vertical.toString() === 'true';
 
@@ -33,6 +32,6 @@ export class DividerCustomElement {
       .is-divider{border-top:.1rem solid ${this.lineColor}!important;}
       .is-divider-vertical::before{border-left:.1rem solid ${this.lineColor}!important;}
       `;
-    DOM.injectStyles(css, null, null, 'aut_divider_injected_style');
+    // TODO(fkleuver): add this api to v2 // DOM.injectStyles(css, null, null, 'aut_divider_injected_style');
   }
 }

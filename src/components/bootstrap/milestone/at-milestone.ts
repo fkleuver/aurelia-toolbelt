@@ -1,4 +1,4 @@
-import { customElement, containerless, bindable, bindingMode } from 'aurelia-framework';
+import { customElement, containerless, bindable, BindingMode } from '@aurelia/runtime';
 
 
 @containerless()
@@ -6,10 +6,10 @@ import { customElement, containerless, bindable, bindingMode } from 'aurelia-fra
 export class AureliaToolbeltMilestone {
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public type: string = 'secondary';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public icon: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public type: string = 'secondary';
+  @bindable({ mode: BindingMode.oneTime }) public icon: string = '';
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
 
 }

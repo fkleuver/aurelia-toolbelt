@@ -1,6 +1,3 @@
-import { customAttribute, singleton } from 'aurelia-framework';
-
-@singleton()
 export class Uuid {
 
   public uuidv4() {

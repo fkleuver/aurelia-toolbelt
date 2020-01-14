@@ -1,17 +1,5 @@
-import { FrameworkConfiguration, PLATFORM } from 'aurelia-framework';
-
-
-
-
-export function configure(config: FrameworkConfiguration) {
-
-  config
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/bootstrap/index'))
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/jquery/index'))
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/index'));
-
-  // config.plugin(PLATFORM.moduleName('aurelia-after-attached-plugin'));
-
-}
+export * from './bootstrap/index';
+export * from './jquery/index';
+export * from './vanilla/index';
 
 

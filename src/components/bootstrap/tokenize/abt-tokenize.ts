@@ -1,5 +1,5 @@
 
-import { customElement, inject, bindable, bindingMode, BindingEngine, containerless, processContent, children } from 'aurelia-framework';
+import { customElement, bindable, BindingMode, INode, children } from '@aurelia/runtime';
 
 import 'jquery';
 // import 'aureliatoolbelt-thirdparty/bootstrap-tokenize2/tokenize2.css';
@@ -12,86 +12,87 @@ export interface ITokenizeItem {
   force?: boolean;
 }
 
-@inject(Element, JsTools, BindingEngine)
 @customElement('abt-tokenize')
 export class BootstrapTokenizeCustomElement {
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string = null;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public debounce: number | string = 0;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public delimiter: string[] = [','];
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public placeholder: string = null;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public tokensMaxItems: number | string = 0;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public tokensAllowCustom: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public dropdownMaxItems: number | string = 10;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public searchMinLength: number | string = 0;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public searchFromStart: boolean | string = true;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public searchHighlight: boolean | string = true;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public showOnClick: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public displayNoResultsMessage: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public noResultsMessageText: string = 'No results matched "%s"';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public zIndexMargin: number | string = 500;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public tabIndex: number | string = 0;
+  @bindable({ mode: BindingMode.oneTime }) public id: string = null;
+  @bindable({ mode: BindingMode.toView }) public class: string;
+  @bindable({ mode: BindingMode.toView }) public style: string;
+  @bindable({ mode: BindingMode.toView }) public debounce: number | string = 0;
+  @bindable({ mode: BindingMode.toView }) public delimiter: string[] = [','];
+  @bindable({ mode: BindingMode.toView }) public placeholder: string = null;
+  @bindable({ mode: BindingMode.toView }) public tokensMaxItems: number | string = 0;
+  @bindable({ mode: BindingMode.toView }) public tokensAllowCustom: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public dropdownMaxItems: number | string = 10;
+  @bindable({ mode: BindingMode.toView }) public searchMinLength: number | string = 0;
+  @bindable({ mode: BindingMode.toView }) public searchFromStart: boolean | string = true;
+  @bindable({ mode: BindingMode.toView }) public searchHighlight: boolean | string = true;
+  @bindable({ mode: BindingMode.toView }) public showOnClick: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public displayNoResultsMessage: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public noResultsMessageText: string = 'No results matched "%s"';
+  @bindable({ mode: BindingMode.toView }) public zIndexMargin: number | string = 500;
+  @bindable({ mode: BindingMode.toView }) public tabIndex: number | string = 0;
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public dataSource: string | Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public selectedTokens: Array<ITokenizeItem>;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public load: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public clear: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public remap: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public select: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public deselect: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public search: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public paste: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public dropdownUp: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public dropdownDown: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public dropdownClear: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public dropdownShow: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public dropdownHide: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public dropdownFill: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public dropdownItemAdd: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public keypress: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public keydown: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public keyup: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public reorder: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public add: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public remove: Function;
+  @bindable({ mode: BindingMode.twoWay }) public dataSource: string | Function;
+  @bindable({ mode: BindingMode.twoWay }) public selectedTokens: Array<ITokenizeItem>;
+  @bindable({ mode: BindingMode.twoWay }) public load: Function;
+  @bindable({ mode: BindingMode.twoWay }) public clear: Function;
+  @bindable({ mode: BindingMode.twoWay }) public remap: Function;
+  @bindable({ mode: BindingMode.twoWay }) public select: Function;
+  @bindable({ mode: BindingMode.twoWay }) public deselect: Function;
+  @bindable({ mode: BindingMode.twoWay }) public search: Function;
+  @bindable({ mode: BindingMode.twoWay }) public paste: Function;
+  @bindable({ mode: BindingMode.twoWay }) public dropdownUp: Function;
+  @bindable({ mode: BindingMode.twoWay }) public dropdownDown: Function;
+  @bindable({ mode: BindingMode.twoWay }) public dropdownClear: Function;
+  @bindable({ mode: BindingMode.twoWay }) public dropdownShow: Function;
+  @bindable({ mode: BindingMode.twoWay }) public dropdownHide: Function;
+  @bindable({ mode: BindingMode.twoWay }) public dropdownFill: Function;
+  @bindable({ mode: BindingMode.twoWay }) public dropdownItemAdd: Function;
+  @bindable({ mode: BindingMode.twoWay }) public keypress: Function;
+  @bindable({ mode: BindingMode.twoWay }) public keydown: Function;
+  @bindable({ mode: BindingMode.twoWay }) public keyup: Function;
+  @bindable({ mode: BindingMode.twoWay }) public reorder: Function;
+  @bindable({ mode: BindingMode.twoWay }) public add: Function;
+  @bindable({ mode: BindingMode.twoWay }) public remove: Function;
 
   private tokenize: HTMLSelectElement;
   private tokenizeTemplate: Element;
 
-  @children('option') private options: Array<HTMLOptionElement>;
+  // TODO(fkleuver): Just. Ugh. We need a cleaner overload for the simple case :-)
+  @children({ query: projector => (projector.children as HTMLOptionElement[]).filter(x => x.nodeName === 'OPTION') }) private icons: Array<HTMLOptionElement>;
 
   private subscription: any;
 
-  constructor(private element: Element, private jsTools: JsTools, private bindingEngine: BindingEngine) {
+  constructor(@INode private element: Element, private jsTools: JsTools/* TODO(fkleuver): add BindingEngine api back in , private bindingEngine: BindingEngine */) {
   }
 
-  private bind() {
+  private beforeBind() {
     if (this.selectedTokens) {
-      this.subscription = this.bindingEngine.collectionObserver(this.selectedTokens)
-        .subscribe(x => {
-          let item = x[0];
-          if (item) {
-            if (item.removed.length) {
-              let removed = <Array<ITokenizeItem>>item.removed;
-              for (let index = 0; index < removed.length; index++) {
-                $(this.tokenize).trigger('tokenize:tokens:remove', removed[index].value);
-              }
-            } else {
-              $(this.tokenize).trigger('tokenize:tokens:add', [this.selectedTokens[item.index].value,
-              this.selectedTokens[item.index].text, this.selectedTokens[item.index].force || true]);
-            }
-          }
-        });
+      // TODO(fkleuver): need to add a similar API back into the runtime
+      // this.subscription = this.bindingEngine.collectionObserver(this.selectedTokens)
+      //   .subscribe(x => {
+      //     let item = x[0];
+      //     if (item) {
+      //       if (item.removed.length) {
+      //         let removed = <Array<ITokenizeItem>>item.removed;
+      //         for (let index = 0; index < removed.length; index++) {
+      //           $(this.tokenize).trigger('tokenize:tokens:remove', removed[index].value);
+      //         }
+      //       } else {
+      //         $(this.tokenize).trigger('tokenize:tokens:add', [this.selectedTokens[item.index].value,
+      //         this.selectedTokens[item.index].text, this.selectedTokens[item.index].force || true]);
+      //       }
+      //     }
+      //   });
     }
   }
 
-  private detached() {
+  private afterDetach() {
     this.subscription = null;
   }
 
-  private attached() {
+  private afterAttach() {
 
     if (this.id) {
       this.tokenizeTemplate.setAttribute('id', `abt-tokenize-${this.id}`);

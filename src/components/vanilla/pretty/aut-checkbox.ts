@@ -1,29 +1,29 @@
 import {
-  customAttribute, autoinject, bindable,
-  customElement, inject, bindingMode,
-  Disposable, BindingEngine
-} from 'aurelia-framework';
+  bindable,
+  customElement, BindingMode,
+  INode
+} from '@aurelia/runtime';
+import { IDisposable } from '@aurelia/kernel';
 // import 'pretty-checkbox/dist/pretty-checkbox.css';
 
 
-@inject(Element, BindingEngine)
 @customElement('aut-checkbox')
 export class PrettyCheckboxCustomElement {
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public value: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public model: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public checked: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public matcher: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public disabled: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public name: string = '';
+  @bindable({ mode: BindingMode.twoWay }) public value: any;
+  @bindable({ mode: BindingMode.twoWay }) public model: any;
+  @bindable({ mode: BindingMode.twoWay }) public checked: any;
+  @bindable({ mode: BindingMode.twoWay }) public matcher: any;
+  @bindable({ mode: BindingMode.twoWay }) public disabled: boolean | string = false;
+  @bindable({ mode: BindingMode.twoWay }) public name: string = '';
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public switch: boolean | String = false;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public outlined: boolean | String = false;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public color: string;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public offColor: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public offLabel: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public animation: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public switch: boolean | String = false;
+  @bindable({ mode: BindingMode.oneTime }) public outlined: boolean | String = false;
+  @bindable({ mode: BindingMode.oneTime }) public color: string;
+  @bindable({ mode: BindingMode.oneTime }) public offColor: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public offLabel: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public animation: string = '';
 
 
   private thickCss: string;
@@ -35,9 +35,9 @@ export class PrettyCheckboxCustomElement {
   private isCheckBox: boolean;
 
   private state: boolean;
-  private subscription: Disposable | null = null;
+  private subscription: IDisposable | null = null;
 
-  constructor(private element: Element, private bindingEngine: BindingEngine) { }
+  constructor(@INode private element: Element/* TODO(fkleuver): add BindingEngine api back in , private bindingEngine: BindingEngine */) { }
 
   private changed() {
     if (this.disabled) {
@@ -95,11 +95,12 @@ export class PrettyCheckboxCustomElement {
     // subscribe to the current array's mutation
 
     if (Array.isArray(this.checked)) {
-      this.subscription = this.bindingEngine.collectionObserver(this.checked)
-        .subscribe(() => {
-          // console.log('sync array view');
-          this.synchronizeView(newValue);
-        });
+      // TODO(fkleuver): need to add a similar API back into the runtime
+      // this.subscription = this.bindingEngine.collectionObserver(this.checked)
+      //   .subscribe(() => {
+      //     // console.log('sync array view');
+      //     this.synchronizeView(newValue);
+      //   });
     }
     // console.log('sync  view');
     this.synchronizeView(newValue);
@@ -127,7 +128,7 @@ export class PrettyCheckboxCustomElement {
 
 
 
-  private bind() {
+  private beforeBind() {
 
     if (!this.element.hasAttribute) {
       console.warn(this.element);
@@ -171,7 +172,7 @@ export class PrettyCheckboxCustomElement {
 
   }
 
-  private unbind() {
+  private beforeUnbind() {
     this.disposeSubscription();
   }
 }

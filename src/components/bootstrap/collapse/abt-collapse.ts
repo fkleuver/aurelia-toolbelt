@@ -1,25 +1,23 @@
-import { inject, customElement, containerless, bindable, bindingMode } from 'aurelia-framework';
+import { customElement, containerless, bindable, BindingMode, INode } from '@aurelia/runtime';
 
 
-
-@inject(Element)
 @containerless()
 @customElement('abt-collapse')
 export class BootstrapCollapse {
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public controlledBy: Array<HTMLElement>;
+  @bindable({ mode: BindingMode.oneTime }) public controlledBy: Array<HTMLElement>;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsShow: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsShown: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsHide: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsHidden: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsShow: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsShown: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsHide: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsHidden: Function;
 
   private collapse: HTMLDivElement;
 
-  constructor(private element: Element) {
+  constructor(@INode private element: Element) {
   }
 
 
@@ -100,7 +98,7 @@ export class BootstrapCollapse {
 
   }
 
-  private attached() {
+  private afterAttach() {
 
     this.setEvents();
 
@@ -125,7 +123,7 @@ export class BootstrapCollapse {
     return true;
   }
 
-  private detached() {
+  private afterDetach() {
     $(this.collapse).off('show.bs.collapse');
     $(this.collapse).off('shown.bs.collapse');
     $(this.collapse).off('hide.bs.collapse');

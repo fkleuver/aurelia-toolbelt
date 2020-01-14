@@ -1,14 +1,13 @@
-import { customAttribute, inject, bindable } from 'aurelia-framework';
+import { customAttribute, INode } from '@aurelia/runtime';
 import { Uuid } from '../../../utilities/vanilla/uuid';
 
-@inject(Element, Uuid)
 @customAttribute('aut-id-group')
 export class UuidCustomAttribute {
 
   private id: string;
-  constructor(private element: Element, private idgeneratorV4: Uuid) {
+  constructor(@INode private element: Element, private idgeneratorV4: Uuid) {
   }
-  private bind() {
+  private beforeBind() {
 
     // @ts-ignore
     if (this.value) {

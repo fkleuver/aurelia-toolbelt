@@ -1,28 +1,27 @@
 
-import { customElement, bindingMode, bindable, inject } from 'aurelia-framework';
+import { customElement, BindingMode, bindable, INode } from '@aurelia/runtime';
 import { QR8BitByte, QRAlphaNum, QRCode, QRKanji, QRNumber, ErrorCorrectLevel } from 'qrcode-generator-ts';
 
 // import { createStringToBytes } from 'qrcode-generator-ts/dist/js/text/createStringToBytes';
 
-@inject(Element)
 @customElement('at-qrcode')
 
 export class AureliaToolbeltQrCode {
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public value: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public errorCorrectionLevel: ErrorCorrectLevel | number = ErrorCorrectLevel.L;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public typeNumber: number = 5;
+  @bindable({ mode: BindingMode.toView }) public value: string;
+  @bindable({ mode: BindingMode.toView }) public errorCorrectionLevel: ErrorCorrectLevel | number = ErrorCorrectLevel.L;
+  @bindable({ mode: BindingMode.toView }) public typeNumber: number = 5;
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public size: number = 128;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public darkColor: string = '#000000';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public lightColor: string = '#ffffff';
+  @bindable({ mode: BindingMode.oneTime }) public size: number = 128;
+  @bindable({ mode: BindingMode.oneTime }) public darkColor: string = '#000000';
+  @bindable({ mode: BindingMode.oneTime }) public lightColor: string = '#ffffff';
 
   private canvas: HTMLCanvasElement = document.createElement('canvas');
 
-  constructor(private element: Element) { }
+  constructor(@INode private element: Element) { }
 
-  private attached() {
+  private afterAttach() {
 
     this.element.appendChild(this.canvas);
 

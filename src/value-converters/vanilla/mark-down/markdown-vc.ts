@@ -1,8 +1,7 @@
-import { valueConverter } from 'aurelia-framework';
+import { valueConverter } from '@aurelia/runtime';
 
 const MarkdownIt = require('markdown-it');
 const hljs = require('highlight.js');
-
 
 @valueConverter('md')
 export class MarkDownValueConverter {
@@ -25,7 +24,7 @@ export class MarkDownValueConverter {
 
                 return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
             }
-        });
+        } as any);
 
         let result = md.render(value);
 

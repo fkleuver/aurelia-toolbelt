@@ -1,5 +1,7 @@
+import { valueConverter } from '@aurelia/runtime';
 import { deepGet, deepSet } from './deep';
 
+@valueConverter('fuseHighlight')
 export class FuseHighlightValueConverter {
 
 

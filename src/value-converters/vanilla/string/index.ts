@@ -1,10 +1,4 @@
-import { FrameworkConfiguration, PLATFORM } from 'aurelia-framework';
-
-export function configure(config: FrameworkConfiguration) {
-  config
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/string/latin/index'))
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/string/persian/index'))
-    // .feature(PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/string/strman/index'))
-    // .feature(PLATFORM.moduleName('aurelia-toolbelt/value-converters/vanilla/string/numeral/index'))
-    ;
-}
+// export * from './latin/index';
+export * from './persian/index';
+ // export * from './strman/index';
+ // export * from './numeral/index';

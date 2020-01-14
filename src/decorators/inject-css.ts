@@ -1,21 +1,10 @@
-import { metadata, Origin } from 'aurelia-metadata';
-import { Loader } from 'aurelia-loader';
-import { Container, inject } from 'aurelia-dependency-injection';
-import { DOM, PLATFORM } from 'aurelia-pal';
-import { relativeToFile } from 'aurelia-path';
-
-
 export function injectCss(address: string): any {
   return function (target: Function) {
-
-    let container = Container.instance;
-
-    let loader: Loader = <Loader>container.get(Loader);
-
     let css_id = 'inject_css_' + target.name.toLowerCase();
 
-    loader.loadText(address).then(css => {
-      DOM.injectStyles(css, null, null, css_id);
+    // TODO(fkleuver): native async import is not yet part of the official spec and webpack doesn't support this for dynamic strings. We need to finish the plugin-requirejs to offer a Loader replacement
+    import(address).then(css => {
+      // TODO(fkleuver): add this api to v2 // DOM.injectStyles(css, null, null, css_id);
     });
 
     target.prototype.injectedCssId = css_id;

@@ -1,23 +1,23 @@
-import { inject, customElement, bindingMode, bindable, containerless } from 'aurelia-framework';
+import { customElement, BindingMode, bindable } from '@aurelia/runtime';
 import * as $ from 'jquery';
 
 @customElement('abt-carousel')
 export class CarouselCustomElement {
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public prevTitle: string = 'Previous';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public nextTitle: string = 'Next';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public prevIcon: string = 'carousel-control-prev-icon';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public nextIcon: string = 'carousel-control-next-icon';
+  @bindable({ mode: BindingMode.oneTime }) public prevTitle: string = 'Previous';
+  @bindable({ mode: BindingMode.oneTime }) public nextTitle: string = 'Next';
+  @bindable({ mode: BindingMode.oneTime }) public prevIcon: string = 'carousel-control-prev-icon';
+  @bindable({ mode: BindingMode.oneTime }) public nextIcon: string = 'carousel-control-next-icon';
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public navigator: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public indicator: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public interval: number | string = 5000;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public keyboard: boolean | string = true;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public pause: false | 'hover' = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public ride: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public wrap: boolean | string = true;
+  @bindable({ mode: BindingMode.toView }) public navigator: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public indicator: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public interval: number | string = 5000;
+  @bindable({ mode: BindingMode.toView }) public keyboard: boolean | string = true;
+  @bindable({ mode: BindingMode.toView }) public pause: false | 'hover' = false;
+  @bindable({ mode: BindingMode.toView }) public ride: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public wrap: boolean | string = true;
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsSlide: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsSlid: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsSlide: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsSlid: Function;
 
 
   private showNavigator = false;
@@ -26,7 +26,7 @@ export class CarouselCustomElement {
   private carousel: Element;
   private carouselTemplate: Element;
 
-  private attached() {
+  private afterAttach() {
 
     this.interval = Number(this.interval);
     this.showNavigator = (this.navigator === '' && this.carouselTemplate.hasAttribute('navigator')) || this.navigator.toString() === 'true';
@@ -58,7 +58,7 @@ export class CarouselCustomElement {
     }
   }
 
-  private detached() {
+  private afterDetach() {
     $(this.carousel).carousel('dispose');
   }
 }

@@ -1,12 +1,5 @@
-import { FrameworkConfiguration, PLATFORM } from 'aurelia-framework';
-
-export function configure(config: FrameworkConfiguration) {
-  config
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/jquery/block-ui/index'))
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/jquery/lazy-image/index'))
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/jquery/metis-menu/index'))
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/jquery/news-ticker/index'))
-    // .feature(PLATFORM.moduleName('aurelia-toolbelt/components/jquery/float-label/index'))
-
-    ;
-}
+export * from './block-ui/index';
+export * from './lazy-image/index';
+export * from './metis-menu/index';
+export * from './news-ticker/index';
+// export * from './float-label/index';

@@ -1,8 +1,14 @@
 import { IAutBlockUIOption } from './aut-block-ui-option';
-import { FrameworkConfiguration, PLATFORM } from 'aurelia-framework';
+import { IContainer, Registration } from '@aurelia/kernel';
 
 export * from './aut-block-ui';
-export function configure(config: FrameworkConfiguration, option?: IAutBlockUIOption) {
-    config.globalResources([PLATFORM.moduleName('./aut-block-ui')]);
-    config.container.registerInstance('aut-block-ui-option', option);
-}
+
+export const BlockUIConfig = {
+  customize(option: IAutBlockUIOption) {
+    return {
+      register(container: IContainer) {
+        container.register(Registration.instance(IAutBlockUIOption, option));
+      }
+    }
+  }
+};

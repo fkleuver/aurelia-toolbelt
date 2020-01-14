@@ -1,19 +1,9 @@
-import { FrameworkConfiguration, PLATFORM } from 'aurelia-framework';
-
-
-
-
-export function configure(config: FrameworkConfiguration) {
-
-  config
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/clock/index'))
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/mark-down/index'))
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/nanobar/index'))
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/pretty/index'))
-    // .feature(PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/microlink/index'))
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/raw-html/index'))
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/qrcode/index'))
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/scrollup/index'))
-    .feature(PLATFORM.moduleName('aurelia-toolbelt/components/vanilla/divider/index'));
-
-}
+export * from './clock/index';
+export * from './mark-down/index';
+export * from './nanobar/index';
+export * from './pretty/index';
+// export * from './microlink/index';
+export * from './raw-html/index';
+export * from './qrcode/index';
+export * from './scrollup/index';
+export * from './divider/index';

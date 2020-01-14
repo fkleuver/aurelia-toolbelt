@@ -1,31 +1,30 @@
-import { inject, bindable, bindingMode, Disposable, BindingEngine, customElement, containerless } from 'aurelia-framework';
+import { bindable, BindingMode, customElement, containerless, INode } from '@aurelia/runtime';
+import { IDisposable } from '@aurelia/kernel';
 
 
-
-@inject(Element, BindingEngine)
 @customElement('abt-checkbox-button')
 @containerless()
 export class BootstrapCheckboxButton {
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public value: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public model: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public checked: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public matcher: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public disabled: boolean | string = false;
+  @bindable({ mode: BindingMode.twoWay }) public value: any;
+  @bindable({ mode: BindingMode.twoWay }) public model: any;
+  @bindable({ mode: BindingMode.twoWay }) public checked: any;
+  @bindable({ mode: BindingMode.twoWay }) public matcher: any;
+  @bindable({ mode: BindingMode.twoWay }) public disabled: boolean | string = false;
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string;
+  @bindable({ mode: BindingMode.oneTime }) public id: string;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public bsType: string = 'primary';
+  @bindable({ mode: BindingMode.oneTime }) public bsType: string = 'primary';
 
 
   private state: boolean;
-  private subscription: Disposable | null = null;
+  private subscription: IDisposable | null = null;
 
-  constructor(private element: Element, private bindingEngine: BindingEngine) {
+  constructor(@INode private element: Element/* TODO(fkleuver): add BindingEngine api back in , private bindingEngine: BindingEngine */) {
   }
 
   private changed() {
@@ -79,11 +78,12 @@ export class BootstrapCheckboxButton {
     // subscribe to the current array's mutation
 
     if (Array.isArray(this.checked)) {
-      this.subscription = this.bindingEngine.collectionObserver(this.checked)
-        .subscribe(() => {
-          // console.log('sync array view');
-          this.synchronizeView(newValue);
-        });
+      // TODO(fkleuver): need to add a similar API back into the runtime
+      // this.subscription = this.bindingEngine.collectionObserver(this.checked)
+      //   .subscribe(() => {
+      //     // console.log('sync array view');
+      //     this.synchronizeView(newValue);
+      //   });
     }
     // console.log('sync  view');
     this.synchronizeView(newValue);
@@ -111,7 +111,7 @@ export class BootstrapCheckboxButton {
 
 
 
-  private bind() {
+  private beforeBind() {
 
     if (!this.element.hasAttribute) {
       console.warn(this.element);
@@ -123,7 +123,7 @@ export class BootstrapCheckboxButton {
 
   }
 
-  private unbind() {
+  private beforeUnbind() {
     this.disposeSubscription();
   }
 

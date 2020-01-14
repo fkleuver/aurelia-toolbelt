@@ -1,7 +1,6 @@
-import { inject, TemplatingEngine } from 'aurelia-framework';
 import * as $ from 'jquery';
 
-@inject(TemplatingEngine)
+// TODO(fkleuver): ?? // @inject(TemplatingEngine)
 export class AureliaToolbeltBootstrapModalRenderer {
 
   private dialogs: Array<any> = [];
@@ -43,6 +42,7 @@ export class AureliaToolbeltBootstrapModalRenderer {
       keyboard: viewModel.keyboard
     });
 
+    // TODO(fkleuver): single its usage is commented out, not sure what to do with this. Does this work / did this ever work?
     // var view = this.templatingEngine.enhance({
     //   element: element,
     //   bindingContext: dialogController.controller.viewModel,
@@ -66,7 +66,7 @@ export class AureliaToolbeltBootstrapModalRenderer {
           resolve();
         });
 
-        // dialogController.slot.attached();
+        // dialogController.slot.afterAttach();
 
         if (underlyingModals.length) {
           underlyingModals.last().after(element);
@@ -86,7 +86,7 @@ export class AureliaToolbeltBootstrapModalRenderer {
 
       dialog.off('hidden.bs.modal');
 
-      // controller.detached();
+      // controller.afterDetach();
 
       dialog.get(0).remove();
 

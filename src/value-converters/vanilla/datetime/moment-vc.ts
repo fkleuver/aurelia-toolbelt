@@ -1,7 +1,6 @@
-import { valueConverter } from 'aurelia-framework';
+import { valueConverter } from '@aurelia/runtime';
 
 const moment = require('jalali-moment');
-
 
 @valueConverter('relative')
 export class RelativeValueConverter {

@@ -1,7 +1,4 @@
-import { singleton } from 'aurelia-dependency-injection';
-
 // We save all options per conponent. [id, settings from component, option from plugin, default options]
-@singleton()
 export class SharedOptions {
     private allOptions: any = {};
 

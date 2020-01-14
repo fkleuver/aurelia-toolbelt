@@ -1,12 +1,3 @@
-import { PLATFORM, FrameworkConfiguration } from 'aurelia-framework';
-
-
-
-export function configure(config: FrameworkConfiguration) {
-
-    config.globalResources([
-        PLATFORM.moduleName('./order-by'),
-        PLATFORM.moduleName('./group-by'),
-        PLATFORM.moduleName('./filter-by')
-    ]);
-}
+export * from './filter-by';
+export * from './group-by';
+export * from './order-by';

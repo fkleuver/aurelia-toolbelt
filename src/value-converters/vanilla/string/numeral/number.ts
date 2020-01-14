@@ -1,4 +1,5 @@
-import { valueConverter } from 'aurelia-framework';
+import { valueConverter } from '@aurelia/runtime';
+
 import * as numeral from 'numeral';
 @valueConverter('number')
 export class NumberValueConverter {

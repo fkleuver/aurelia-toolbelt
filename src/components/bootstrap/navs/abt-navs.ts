@@ -1,41 +1,42 @@
-import { containerless, inject, bindable, bindingMode, TaskQueue } from 'aurelia-framework';
-import { customElement } from 'aurelia-templating';
+import { bindable, BindingMode, INode, IScheduler, customElement } from '@aurelia/runtime';
 
 import * as $ from 'jquery';
 
-@inject(Element, TaskQueue)
 @customElement('abt-navs')
 export class BootstrapNavs {
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public navsVerticalClass: string = 'col-sm-3';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public contentVerticalClass: string = 'col-sm-9';
+  @bindable({ mode: BindingMode.toView }) public navsVerticalClass: string = 'col-sm-3';
+  @bindable({ mode: BindingMode.toView }) public contentVerticalClass: string = 'col-sm-9';
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public navsClass: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public navsStyle: string;
+  @bindable({ mode: BindingMode.toView }) public navsClass: string;
+  @bindable({ mode: BindingMode.toView }) public navsStyle: string;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public contentClass: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public contentStyle: string;
-
-
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public bsShow: Function;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public bsHide: Function;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public bsShown: Function;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public bsHidden: Function;
+  @bindable({ mode: BindingMode.toView }) public contentClass: string;
+  @bindable({ mode: BindingMode.toView }) public contentStyle: string;
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public tabs: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public pills: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public vertical: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public justify: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public fill: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public bsShow: Function;
+  @bindable({ mode: BindingMode.oneTime }) public bsHide: Function;
+  @bindable({ mode: BindingMode.oneTime }) public bsShown: Function;
+  @bindable({ mode: BindingMode.oneTime }) public bsHidden: Function;
+
+
+  @bindable({ mode: BindingMode.oneTime }) public tabs: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public pills: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public vertical: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public justify: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public fill: boolean | string = false;
 
   private beTab: boolean = true;
   private bePills: boolean = false;
 
-  constructor(private element: Element, private taskQueue: TaskQueue) { }
+  constructor(
+    @INode private element: Element,
+    @IScheduler private scheduler: IScheduler,
+  ) { }
 
-  private attached() {
+  private afterAttach() {
 
     const onlyPillsAttribute = (this.pills === '' && this.element.hasAttribute('pills'));
     this.pills = onlyPillsAttribute || this.pills.toString() === 'true';
@@ -63,8 +64,8 @@ export class BootstrapNavs {
     }
 
 
-    this.taskQueue.queueTask(() => this.afterAttached());
-
+    // NOTE(fkleuver): this is what maps directly to TaskQueue.queueTask in terms of timing (both use setTimeout), but I'm quite sure this is not actually needed. If it is, though, it might be preferable to use queueRenderTask instead (which uses rAF)
+    this.scheduler.queueMacroTask(() => this.afterAttached());
   }
 
   private afterAttached() {
@@ -114,7 +115,7 @@ export class BootstrapNavs {
 
   }
 
-  private detached() {
+  private afterDetach() {
     let children = this.element.children.item(0).children.item(0).getElementsByTagName('a');
     $(children).off('show.bs.tab');
     $(children).off('shown.bs.tab');

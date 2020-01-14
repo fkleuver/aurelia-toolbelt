@@ -1,10 +1,7 @@
-import { containerless, customElement } from 'aurelia-framework';
-import { bindingMode } from 'aurelia-binding';
-import { bindable } from 'aurelia-templating';
-
+import { containerless, customElement, bindable, BindingMode } from '@aurelia/runtime';
 
 @containerless()
 @customElement('abt-alert-heading')
 export class BootstrapAlertHeading {
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public id: string = '';
 }

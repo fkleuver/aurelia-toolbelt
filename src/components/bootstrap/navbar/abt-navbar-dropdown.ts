@@ -1,29 +1,27 @@
-import { DOM, containerless, inject, bindingMode, bindable } from 'aurelia-framework';
-import { customElement } from 'aurelia-templating';
+import { containerless, customElement, bindable, BindingMode } from '@aurelia/runtime';
 
 
 export type Placement = 'up' | 'down' | 'right' | 'left';
-@inject(Element)
 @containerless()
 @customElement('abt-navbar-dropdown')
 export class BootstrapNavBarDropDown {
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public fulWidth: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public title: string;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public click: Function;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public linkClass: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public linkStyle: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public menuClass: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public menuStyle: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public placement: Placement = 'down';
+  @bindable({ mode: BindingMode.oneTime }) public fulWidth: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public title: string;
+  @bindable({ mode: BindingMode.twoWay }) public click: Function;
+  @bindable({ mode: BindingMode.toView }) public class: string;
+  @bindable({ mode: BindingMode.toView }) public style: string;
+  @bindable({ mode: BindingMode.toView }) public linkClass: string;
+  @bindable({ mode: BindingMode.toView }) public linkStyle: string;
+  @bindable({ mode: BindingMode.toView }) public menuClass: string;
+  @bindable({ mode: BindingMode.toView }) public menuStyle: string;
+  @bindable({ mode: BindingMode.toView }) public placement: Placement = 'down';
 
   private navDropDown: Element;
   private navListDropDown: Element;
   private dropDownMenu: Element;
   private navLinkDropDown: Element;
 
-  private attached() {
+  private afterAttach() {
 
     switch (this.placement) {
       case 'up':

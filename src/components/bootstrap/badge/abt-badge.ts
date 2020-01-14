@@ -1,20 +1,18 @@
-import { inject, customElement, bindable, bindingMode, containerless } from 'aurelia-framework';
+import { customElement, bindable, BindingMode, containerless, INode } from '@aurelia/runtime';
 
 
-
-@inject(Element)
 @containerless()
 @customElement('abt-badge')
 export class BootstrapBadge {
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public type: string = 'primary';
-  // @bindable({ defaultBindingMode: bindingMode.oneWay }) public href: string | null = null;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public isPill: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public type: string = 'primary';
+  // @bindable({ mode: BindingMode.toView }) public href: string | null = null;
+  @bindable({ mode: BindingMode.toView }) public isPill: boolean | string = false;
 
-  constructor(private element: Element) { }
+  constructor(@INode private element: Element) { }
 
-  private bind() {
+  private beforeBind() {
     const onlyIsPillAttribute = (this.isPill === '' && this.element.hasAttribute('is-pill'));
     this.isPill = onlyIsPillAttribute || this.isPill === 'true' || this.isPill === true;
   }

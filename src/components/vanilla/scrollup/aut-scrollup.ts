@@ -1,16 +1,16 @@
 
-import { customElement, bindable, bindingMode, inject, containerless, DOM } from 'aurelia-framework';
+import { customElement, bindable, BindingMode } from '@aurelia/runtime';
 
 @customElement('aut-scrollup')
 export class ScrollUpCustomElement {
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public threshold: number | string = 150;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public beforeScrollUp: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public afterScrollUp: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public shownScrollUp: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public hideScrollUp: Function;
+  @bindable({ mode: BindingMode.toView }) public class: string;
+  @bindable({ mode: BindingMode.toView }) public style: string;
+  @bindable({ mode: BindingMode.toView }) public threshold: number | string = 150;
+  @bindable({ mode: BindingMode.twoWay }) public beforeScrollUp: Function;
+  @bindable({ mode: BindingMode.twoWay }) public afterScrollUp: Function;
+  @bindable({ mode: BindingMode.twoWay }) public shownScrollUp: Function;
+  @bindable({ mode: BindingMode.twoWay }) public hideScrollUp: Function;
 
   private scrollupButton: HTMLButtonElement;
 
@@ -57,7 +57,7 @@ export class ScrollUpCustomElement {
     }
   }
 
-  private attached() {
+  private afterAttach() {
     /*
     let isMultipleInstanceAvailable = document.getElementsByClassName('aut-scrollup').length > 1;
     if (isMultipleInstanceAvailable) {

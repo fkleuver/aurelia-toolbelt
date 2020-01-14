@@ -1,16 +1,15 @@
 import { SharedIndex } from './../../../utilities/vanilla/sharedIndex';
-import { customAttribute, inject, bindable } from 'aurelia-framework';
+import { customAttribute,  INode } from '@aurelia/runtime';
 import { Uuid } from '../../../utilities/vanilla/uuid';
 
-@inject(Element, SharedIndex, Uuid)
 @customAttribute('aut-id')
 export class IdCustomAttribute {
 
   private id: string;
-  constructor(private element: Element, private sharedIndex: SharedIndex, private idgeneratorV4: Uuid) {
+  constructor(@INode private element: Element, private sharedIndex: SharedIndex, private idgeneratorV4: Uuid) {
   }
 
-  private bind() {
+  private beforeBind() {
     let uuid = this.idgeneratorV4.Uuidv4ForId();
     let group = this.element.getAttribute('data-aut-id-group');
     if (!group) {

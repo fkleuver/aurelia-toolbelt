@@ -1,28 +1,26 @@
-import { inject, customElement, bindable, bindingMode, containerless } from 'aurelia-framework';
+import { customElement, bindable, BindingMode, containerless, INode } from '@aurelia/runtime';
 
 
 
-
-@inject(Element)
 @containerless()
 @customElement('aut-metis-menu-group')
 
 export class JQueryMetisGroup {
 
-    @bindable({ defaultBindingMode: bindingMode.oneWay }) public text: string;
+    @bindable({ mode: BindingMode.toView }) public text: string;
 
-    @bindable({ defaultBindingMode: bindingMode.oneTime }) public groupClass: string = '';
-    @bindable({ defaultBindingMode: bindingMode.oneTime }) public iconClass: string = '';
-    @bindable({ defaultBindingMode: bindingMode.oneTime }) public arrowClass: string = ' fa arrow';
+    @bindable({ mode: BindingMode.oneTime }) public groupClass: string = '';
+    @bindable({ mode: BindingMode.oneTime }) public iconClass: string = '';
+    @bindable({ mode: BindingMode.oneTime }) public arrowClass: string = ' fa arrow';
 
-    @bindable({ defaultBindingMode: bindingMode.oneTime }) public active: string | boolean = false;
-    @bindable({ defaultBindingMode: bindingMode.oneTime }) public showArrow: string | boolean = true;
+    @bindable({ mode: BindingMode.oneTime }) public active: string | boolean = false;
+    @bindable({ mode: BindingMode.oneTime }) public showArrow: string | boolean = true;
 
 
 
-    constructor(private element: Element) {}
+    constructor(@INode private element: Element) {}
 
-    private attached() {
+    private afterAttach() {
 
         this.active = this.active === true
             || this.active === 'true'

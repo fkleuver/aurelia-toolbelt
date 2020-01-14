@@ -1,21 +1,20 @@
-import { useShadowDOM, customElement, containerless, bindable, bindingMode, inject } from 'aurelia-framework';
+import { customElement, containerless, bindable, BindingMode, INode } from '@aurelia/runtime';
 
 
-@inject(Element)
 @containerless()
 @customElement('at-milestone-container')
 export class AureliaToolbeltMilestoneContainer {
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public topBorder: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public bottomBorder: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public topBorder: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public bottomBorder: boolean | string = false;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
 
-  constructor(private element: Element) { }
+  constructor(@INode private element: Element) { }
 
 
-  public attached() {
+  public afterAttach() {
 
     const onlyTopBorderAttribute = (this.topBorder === '' && this.element.hasAttribute('top-border'));
     this.topBorder = onlyTopBorderAttribute || this.topBorder === 'true' || this.topBorder === true;

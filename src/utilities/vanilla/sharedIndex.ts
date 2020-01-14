@@ -1,6 +1,3 @@
-import { singleton, transient } from 'aurelia-framework';
-
-@singleton()
 export class SharedIndex {
   private dictionary: string[] = [];
 

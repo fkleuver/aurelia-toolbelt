@@ -1,4 +1,4 @@
-import { bindingMode, bindable, containerless, customElement, inject } from 'aurelia-framework';
+import { BindingMode, bindable, containerless, customElement } from '@aurelia/runtime';
 
 
 @containerless()
@@ -7,13 +7,13 @@ export class BootstrapModalHeader {
 
   private dismissible: boolean = false;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
 
 
   private header: HTMLDivElement;
 
-  private attached() {
+  private afterAttach() {
     let x = this.header.parentElement.parentElement.parentElement.getAttribute('data-abt-dismissible');
     this.dismissible = x === 'true';
   }

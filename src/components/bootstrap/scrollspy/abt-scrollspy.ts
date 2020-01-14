@@ -1,30 +1,29 @@
-import { customElement, inject, containerless, bindable, bindingMode } from 'aurelia-framework';
+import { customElement, containerless, bindable, BindingMode, INode } from '@aurelia/runtime';
 
 
 import * as $ from 'jquery';
 
 
-@inject(Element)
 @containerless()
 @customElement('abt-scrollspy')
 export class BootstrapScrollSpy {
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public target: string;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public offset: number = 10;
+  @bindable({ mode: BindingMode.oneTime }) public target: string;
+  @bindable({ mode: BindingMode.oneTime }) public offset: number = 10;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsScrollspy: Function;
+  @bindable({ mode: BindingMode.toView }) public class: string;
+  @bindable({ mode: BindingMode.toView }) public style: string;
+  @bindable({ mode: BindingMode.twoWay }) public bsScrollspy: Function;
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public onBody: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public onBody: boolean | string = false;
 
 
   private spy: HTMLElement;
 
-  constructor(private element: Element) { }
+  constructor(@INode private element: Element) { }
 
 
-  private attached() {
+  private afterAttach() {
 
     this.onBody = Boolean(this.onBody);
     this.offset = Number(this.offset);
@@ -47,7 +46,7 @@ export class BootstrapScrollSpy {
   }
 
 
-  private detached() {
+  private afterDetach() {
     $(this.spy).scrollspy('dispose');
   }
 

@@ -1,34 +1,30 @@
+import { customElement, containerless, bindable, BindingMode, INode } from '@aurelia/runtime';
 
-import { inject } from 'aurelia-dependency-injection';
-import { customElement, containerless, bindable, bindingMode } from 'aurelia-framework';
-
-
-@inject(Element)
 @containerless()
 @customElement('abt-button')
 export class BootstrapButton {
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public size: string = 'md';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public type: string = 'button';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public bsType: string = 'primary';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public outline: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public block: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public size: string = 'md';
+  @bindable({ mode: BindingMode.oneTime }) public type: string = 'button';
+  @bindable({ mode: BindingMode.oneTime }) public bsType: string = 'primary';
+  @bindable({ mode: BindingMode.oneTime }) public id: string;
+  @bindable({ mode: BindingMode.oneTime }) public outline: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public block: boolean | string = false;
 
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public click: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public disabled: boolean | string = false;
+  @bindable({ mode: BindingMode.twoWay }) public click: Function;
+  @bindable({ mode: BindingMode.twoWay }) public disabled: boolean | string = false;
 
   private isBusy: boolean = false;
   private task: Promise<void> | null = null;
 
-  constructor(private element: Element) { }
+  constructor(@INode private element: Element) { }
 
-  private attached() {
+  private afterAttach() {
 
     const onlyOutlineAttribute = (this.outline === '' && this.element.hasAttribute('outline'));
     this.outline = onlyOutlineAttribute || this.outline === 'true' || this.outline === true;
@@ -66,7 +62,7 @@ export class BootstrapButton {
     this.isBusy = false;
   }
 
-  private detached() {
+  private afterDetach() {
     this.task = null;
   }
 

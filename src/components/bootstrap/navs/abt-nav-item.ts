@@ -1,21 +1,18 @@
-import { containerless, bindable, bindingMode, inject, customElement } from 'aurelia-framework';
+import { containerless, bindable, BindingMode, customElement, INode } from '@aurelia/runtime';
 import { Uuid } from '../../../utilities/vanilla/uuid';
 
-
-
-@inject(Element, Uuid)
 @containerless()
 @customElement('abt-nav-item')
 export class BootstrapNavItem {
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string;
+  @bindable({ mode: BindingMode.toView }) public class: string;
+  @bindable({ mode: BindingMode.toView }) public style: string;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public href: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public title: string;
+  @bindable({ mode: BindingMode.toView }) public href: string;
+  @bindable({ mode: BindingMode.toView }) public title: string;
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public active: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public disabled: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public active: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public disabled: boolean | string = false;
 
   private isFade: boolean = false;
 
@@ -25,15 +22,14 @@ export class BootstrapNavItem {
 
   private element: HTMLElement;
 
-  constructor(element: Element, private uuid: Uuid) {
-
+  constructor(
+    @INode element: Element,
+    private uuid: Uuid,
+  ) {
     this.element = <HTMLElement>element;
-
   }
 
-
-
-  private attached() {
+  private afterAttach() {
 
     let navComponent: HTMLElement;
     let navs: HTMLElement;

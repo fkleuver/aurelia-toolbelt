@@ -1,15 +1,12 @@
-import { containerless, customElement, bindable } from 'aurelia-framework';
-import { bindingMode } from 'aurelia-binding';
-
-
+import { containerless, customElement, bindable, BindingMode } from '@aurelia/runtime';
 
 @customElement('abt-card')
 @containerless()
 export class BootstrapCard {
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public width: string;
+  @bindable({ mode: BindingMode.toView }) public style: string;
+  @bindable({ mode: BindingMode.toView }) public class: string;
+  @bindable({ mode: BindingMode.toView }) public width: string;
 
 }

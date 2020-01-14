@@ -1,44 +1,42 @@
-import { customElement, inject, bindable, bindingMode, BindingEngine } from 'aurelia-framework';
-import { Disposable } from 'aurelia-binding';
-
+import { customElement, bindable, BindingMode, INode } from '@aurelia/runtime';
 
 import * as $ from 'jquery';
 
 import 'aureliatoolbelt-thirdparty/bootstrap-toggle/bootstrap-toggle.js';
+import { IDisposable } from '@aurelia/kernel';
 
-@inject(Element, BindingEngine)
 @customElement('abt-toggle')
 export class BootstrapToggleCustomElement {
 
 
   /*  One-Time bindable properties */
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) private on: string = 'On';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) private off: string = 'Off';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) private onType: string = 'primary';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) private offType: string = 'secondary';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) private css: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) private size: string = 'normal';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) private width: number | null = null;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) private height: number | null = null;
+  @bindable({ mode: BindingMode.oneTime }) private on: string = 'On';
+  @bindable({ mode: BindingMode.oneTime }) private off: string = 'Off';
+  @bindable({ mode: BindingMode.oneTime }) private onType: string = 'primary';
+  @bindable({ mode: BindingMode.oneTime }) private offType: string = 'secondary';
+  @bindable({ mode: BindingMode.oneTime }) private css: string = '';
+  @bindable({ mode: BindingMode.oneTime }) private size: string = 'normal';
+  @bindable({ mode: BindingMode.oneTime }) private width: number | null = null;
+  @bindable({ mode: BindingMode.oneTime }) private height: number | null = null;
   /*  ************************************** */
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) private class: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) private style: string = '';
+  @bindable({ mode: BindingMode.toView }) private class: string = '';
+  @bindable({ mode: BindingMode.toView }) private style: string = '';
 
   /*  Two-Way bindable properties */
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public value: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public model: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public checked: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public matcher: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public disabled: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public rtl: boolean | string = false;
+  @bindable({ mode: BindingMode.twoWay }) public value: any;
+  @bindable({ mode: BindingMode.twoWay }) public model: any;
+  @bindable({ mode: BindingMode.twoWay }) public checked: any;
+  @bindable({ mode: BindingMode.twoWay }) public matcher: Function;
+  @bindable({ mode: BindingMode.twoWay }) public disabled: boolean | string = false;
+  @bindable({ mode: BindingMode.twoWay }) public rtl: boolean | string = false;
   /*  ************************************** */
 
   private checkbox: HTMLInputElement;
-  private subscription: Disposable | null = null;
+  private subscription: IDisposable | null = null;
 
-  constructor(private element: Element, private bindingEngine: BindingEngine) {
+  constructor(@INode private element: Element /* TODO(fkleuver): add BindingEngine api back in , private bindingEngine: BindingEngine */) {
   }
 
   private disabledChanged(newValue: boolean | string) {
@@ -116,11 +114,12 @@ export class BootstrapToggleCustomElement {
     // subscribe to the current array's mutation
 
     if (Array.isArray(this.checked)) {
-      this.subscription = this.bindingEngine.collectionObserver(this.checked)
-        .subscribe(() => {
-          // console.log('sync array view');
-          this.synchronizeView(newValue);
-        });
+      // TODO(fkleuver): need to add a similar API back into the runtime
+      // this.subscription = this.bindingEngine.collectionObserver(this.checked)
+      //   .subscribe(() => {
+      //     // console.log('sync array view');
+      //     this.synchronizeView(newValue);
+      //   });
     }
     // console.log('sync  view');
     this.synchronizeView(newValue);
@@ -152,7 +151,7 @@ export class BootstrapToggleCustomElement {
     }
   }
 
-  private attached() {
+  private afterAttach() {
     // @ts-ignore
     $(this.checkbox).bootstrapToggle({
       on: this.on,
@@ -175,7 +174,7 @@ export class BootstrapToggleCustomElement {
     }
   }
 
-  private bind() {
+  private beforeBind() {
 
     // const onlyDisabledAttribute = (this.disabled === '' && this.element.hasAttribute('disabled'));
     this.disabled = (this.disabled === '' && this.element.hasAttribute('disabled')) || (this.disabled && this.disabled.toString() === 'true');
@@ -192,7 +191,7 @@ export class BootstrapToggleCustomElement {
     this.synchronizeView(this.checked);
   }
 
-  private unbind() {
+  private beforeUnbind() {
     this.disposeSubscription();
   }
 

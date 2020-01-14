@@ -1,5 +1,4 @@
-import { customElement, bindable, bindingMode, useShadowDOM } from 'aurelia-framework';
-import { containerless } from 'aurelia-templating';
+import { customElement, bindable, BindingMode, useShadowDOM, containerless } from '@aurelia/runtime';
 
 @containerless()
 @customElement('aut-clock')
@@ -11,24 +10,24 @@ export class ClockCustomElement {
   /*  ************************************************* */
 
   /* One Time bindings */
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public text: string = 'Aurelia is awesome';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public color: string = '#753B85';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public shadowColor: string = ''; // = '#C8167A';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public fontSize: string | number = '40';
+  @bindable({ mode: BindingMode.oneTime }) public text: string = 'Aurelia is awesome';
+  @bindable({ mode: BindingMode.oneTime }) public color: string = '#753B85';
+  @bindable({ mode: BindingMode.oneTime }) public shadowColor: string = ''; // = '#C8167A';
+  @bindable({ mode: BindingMode.oneTime }) public fontSize: string | number = '40';
   /* ************************************************************************* */
 
   /** One way bindings */
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public locale: string = 'en';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public dateFormat: string = 'YYYY/MM/DD';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public be24Hours: string | boolean = true;
+  @bindable({ mode: BindingMode.toView }) public locale: string = 'en';
+  @bindable({ mode: BindingMode.toView }) public dateFormat: string = 'YYYY/MM/DD';
+  @bindable({ mode: BindingMode.toView }) public be24Hours: string | boolean = true;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public showText: string | boolean = true;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public showDate: string | boolean = true;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public showTime: string | boolean = true;
+  @bindable({ mode: BindingMode.toView }) public showText: string | boolean = true;
+  @bindable({ mode: BindingMode.toView }) public showDate: string | boolean = true;
+  @bindable({ mode: BindingMode.toView }) public showTime: string | boolean = true;
   /* ************************************************************************* */
 
 
-  private attached() {
+  private afterAttach() {
 
     this.value = new Date();
     let self = this;
@@ -44,7 +43,7 @@ export class ClockCustomElement {
     });
   }
 
-  private detached() {
+  private afterDetach() {
     clearTimeout(this.timer);
   }
 

@@ -1,4 +1,4 @@
-import { customElement, inject, bindable, bindingMode, BindingEngine, containerless, signalBindings } from 'aurelia-framework';
+import { customElement, bindable, BindingMode } from '@aurelia/runtime';
 
 
 
@@ -8,34 +8,33 @@ interface IPagination {
   selected: boolean;
 }
 
-@inject(Element)
 @customElement('abt-pagination')
 export class BootstrapPaginationCustomElement {
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public totalPages: number | string = 1;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public selectedPage: number | string = 1;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public visiblePages: number | string = 1;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public hideOnlyOnePage: boolean | string = true;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public boundaryLinks: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public directionLinks: boolean | string = true;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public showGoto: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public totalPages: number | string = 1;
+  @bindable({ mode: BindingMode.toView }) public selectedPage: number | string = 1;
+  @bindable({ mode: BindingMode.toView }) public visiblePages: number | string = 1;
+  @bindable({ mode: BindingMode.toView }) public hideOnlyOnePage: boolean | string = true;
+  @bindable({ mode: BindingMode.toView }) public boundaryLinks: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public directionLinks: boolean | string = true;
+  @bindable({ mode: BindingMode.toView }) public showGoto: boolean | string = false;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public template: string = '%s';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public size: string = 'md';
+  @bindable({ mode: BindingMode.toView }) public template: string = '%s';
+  @bindable({ mode: BindingMode.toView }) public style: string;
+  @bindable({ mode: BindingMode.toView }) public class: string;
+  @bindable({ mode: BindingMode.oneTime }) public id: string;
+  @bindable({ mode: BindingMode.toView }) public size: string = 'md';
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public firstText: string = 'First';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public firstIcon: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public lastText: string = 'Last';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public lastIcon: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public prevText: string = 'Previous';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public prevIcon: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public nextText: string = 'Next';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public nextIcon: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public loop: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public pageChanged: Function;
+  @bindable({ mode: BindingMode.toView }) public firstText: string = 'First';
+  @bindable({ mode: BindingMode.toView }) public firstIcon: string;
+  @bindable({ mode: BindingMode.toView }) public lastText: string = 'Last';
+  @bindable({ mode: BindingMode.toView }) public lastIcon: string;
+  @bindable({ mode: BindingMode.toView }) public prevText: string = 'Previous';
+  @bindable({ mode: BindingMode.toView }) public prevIcon: string;
+  @bindable({ mode: BindingMode.toView }) public nextText: string = 'Next';
+  @bindable({ mode: BindingMode.toView }) public nextIcon: string;
+  @bindable({ mode: BindingMode.toView }) public loop: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public pageChanged: Function;
 
   private showNumbers: boolean = false;
   private pagination: Element;
@@ -173,7 +172,7 @@ export class BootstrapPaginationCustomElement {
     return totalPages - 5 >= selectedItem;
   }
 
-  private attached() {
+  private afterAttach() {
 
     this.totalPages = Number(this.totalPages);
     this.selectedPage = Number(this.selectedPage);

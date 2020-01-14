@@ -1,33 +1,30 @@
-import { customElement, containerless, bindable, bindingMode, TaskQueue } from 'aurelia-framework';
-import { inject } from 'aurelia-dependency-injection';
-
+import { customElement, bindable, BindingMode, INode, IScheduler } from '@aurelia/runtime';
 
 import * as $ from 'jquery';
 
-@inject(Element, TaskQueue)
 // @containerless()
 @customElement('abt-alert')
 export class BootstrapAlert {
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public size: string = 'md';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public type: string = 'primary';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public animate: boolean | string = true;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public countdown: number | string = 0;
+  @bindable({ mode: BindingMode.oneTime }) public size: string = 'md';
+  @bindable({ mode: BindingMode.oneTime }) public type: string = 'primary';
+  @bindable({ mode: BindingMode.oneTime }) public animate: boolean | string = true;
+  @bindable({ mode: BindingMode.oneTime }) public countdown: number | string = 0;
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public dismissible: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public dismissible: boolean | string = false;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public showAlert: boolean = true;
+  @bindable({ mode: BindingMode.toView }) public showAlert: boolean = true;
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsShow: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsShown: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsHide: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsHidden: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsClose: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsClosed: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public countdownChanged: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsShow: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsShown: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsHide: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsHidden: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsClose: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsClosed: Function;
+  @bindable({ mode: BindingMode.twoWay }) public countdownChanged: Function;
 
 
   private alert: HTMLDivElement;
@@ -36,10 +33,12 @@ export class BootstrapAlert {
   private countdown_timer: any;
   private local_countdown: number;
 
-  constructor(private element: Element, private taskQueue: TaskQueue) {
-  }
+  constructor(
+    @INode private element: Element,
+    @IScheduler private scheduler: IScheduler,
+  ) {}
 
-  private attached() {
+  private afterAttach() {
 
     const onlyDismissibleAttribute = (this.dismissible === '' && this.element.hasAttribute('dismissible'));
     this.dismissible = onlyDismissibleAttribute || this.dismissible.toString() === 'true';
@@ -65,8 +64,8 @@ export class BootstrapAlert {
       });
     }
 
-    this.taskQueue.queueTask(() => this.afterAttached());
-
+    // NOTE(fkleuver): this is what maps directly to TaskQueue.queueTask in terms of timing (both use setTimeout), but I'm quite sure this is not actually needed. If it is, though, it might be preferable to use queueRenderTask instead (which uses rAF)
+    this.scheduler.queueMacroTask(() => this.afterAttached());
   }
 
   private afterAttached() {
@@ -169,7 +168,7 @@ export class BootstrapAlert {
 
   }
 
-  private detached() {
+  private afterDetach() {
     // this is necessary for those alerts with countdown that have not reached their time limit
     clearInterval(this.countdown_timer);
 

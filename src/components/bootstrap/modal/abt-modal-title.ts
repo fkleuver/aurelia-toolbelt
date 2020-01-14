@@ -1,4 +1,4 @@
-import { bindingMode, bindable, containerless, customElement, inject } from 'aurelia-framework';
+import { BindingMode, bindable, containerless, customElement } from '@aurelia/runtime';
 
 
 @containerless()
@@ -6,7 +6,7 @@ import { bindingMode, bindable, containerless, customElement, inject } from 'aur
 export class BootstrapModalTitle {
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
 
 }

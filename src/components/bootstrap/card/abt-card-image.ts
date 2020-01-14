@@ -1,21 +1,20 @@
-import { containerless, customElement, bindable, bindingMode, inject } from 'aurelia-framework';
+import { containerless, customElement, bindable, BindingMode, INode } from '@aurelia/runtime';
 
-@inject(Element)
 @containerless()
 @customElement('abt-card-image')
 export class BootstrapCardImage {
 
-    @bindable({ defaultBindingMode: bindingMode.oneTime }) public alt: string;
-    @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string;
-    @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
+    @bindable({ mode: BindingMode.oneTime }) public alt: string;
+    @bindable({ mode: BindingMode.toView }) public style: string;
+    @bindable({ mode: BindingMode.toView }) public class: string;
 
-    @bindable({ defaultBindingMode: bindingMode.oneWay }) public src: string;
+    @bindable({ mode: BindingMode.toView }) public src: string;
 
     private cssClass: string = 'card-img';
 
-    constructor(private element: Element) { }
+    constructor(@INode private element: Element) { }
 
-    private attached() {
+    private afterAttach() {
 
         let beOnBottom = this.element.hasAttribute('bottom');
         let beOnTop = this.element.hasAttribute('top');

@@ -1,12 +1,10 @@
-import { customElement, containerless, inject, bindable, bindingMode } from 'aurelia-framework';
+import { customElement, containerless, bindable, BindingMode } from '@aurelia/runtime';
 import { IBreadcrumbItem } from './breadcrumb-item';
-
-
 
 @containerless()
 @customElement('abt-breadcrumb')
 export class BootstrapBreadcrumb {
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public items: Array<IBreadcrumbItem>;
+  @bindable({ mode: BindingMode.toView }) public items: Array<IBreadcrumbItem>;
 
 }

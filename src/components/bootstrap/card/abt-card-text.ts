@@ -1,4 +1,4 @@
-import { containerless, customElement } from 'aurelia-framework';
+import { containerless, customElement } from '@aurelia/runtime';
 
 @containerless()
 @customElement('abt-card-text')

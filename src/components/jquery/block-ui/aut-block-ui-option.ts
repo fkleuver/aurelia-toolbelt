@@ -1,3 +1,5 @@
+import { DI } from "@aurelia/kernel";
+
 export interface IAutBlockUIOption {
   message?: string | Element;
   css?: IAutBlockUICssOption;
@@ -23,6 +25,7 @@ export interface IAutBlockUIOption {
   spinnerColor?: string;
   spinnerSize?: string;
 }
+export const IAutBlockUIOption = DI.createInterface<IAutBlockUIOption>('IAutBlockUIOption').noDefault();
 export interface IAutBlockUICssOption {
   padding?: string;
   margin?: string;

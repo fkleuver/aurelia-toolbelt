@@ -1,29 +1,28 @@
-import { inject, customElement, containerless, bindable, bindingMode } from 'aurelia-framework';
+import { customElement, containerless, bindable, BindingMode, INode } from '@aurelia/runtime';
 
 
 import * as $ from 'jquery';
 import 'metismenu';
 
-@inject(Element)
 @containerless()
 @customElement('aut-metis-menu')
 export class JQueryMetisMenu {
 
     private metismenu: HTMLUListElement;
 
-    @bindable({ defaultBindingMode: bindingMode.oneTime }) public class: string = '';
-    @bindable({ defaultBindingMode: bindingMode.oneTime }) public style: string = '';
+    @bindable({ mode: BindingMode.oneTime }) public class: string = '';
+    @bindable({ mode: BindingMode.oneTime }) public style: string = '';
 
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) public showMenu: Function;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) public shownMenu: Function;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) public hideMenu: Function;
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) public hiddenMenu: Function;
+    @bindable({ mode: BindingMode.twoWay }) public showMenu: Function;
+    @bindable({ mode: BindingMode.twoWay }) public shownMenu: Function;
+    @bindable({ mode: BindingMode.twoWay }) public hideMenu: Function;
+    @bindable({ mode: BindingMode.twoWay }) public hiddenMenu: Function;
 
 
-    constructor(private element: Element) {
+    constructor(@INode private element: Element) {
     }
 
-    private attached() {
+    private afterAttach() {
         // @ts-ignore
         $(this.metismenu).metisMenu()
             .on('show.metismenu', (event: any) => {
@@ -89,7 +88,7 @@ export class JQueryMetisMenu {
             });
     }
 
-    private detached() {
+    private afterDetach() {
         // dispose to avoid memory leak
         // @ts-ignore
         $(this.metismenu).metisMenu('dispose');

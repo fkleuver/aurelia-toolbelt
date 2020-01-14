@@ -1,12 +1,10 @@
-import { DOM, containerless, inject, bindingMode, bindable } from 'aurelia-framework';
-import { customElement } from 'aurelia-templating';
+import { containerless, customElement, bindable, BindingMode } from '@aurelia/runtime';
 
-@inject(Element)
 @containerless()
 @customElement('abt-navbar-dropdown-mega-item')
 export class BootstrapNavBarDropDownMegaItem {
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string;
+  @bindable({ mode: BindingMode.toView }) public class: string;
+  @bindable({ mode: BindingMode.toView }) public style: string;
+  @bindable({ mode: BindingMode.oneTime }) public id: string;
 
 }

@@ -1,5 +1,4 @@
-import { transient, customElement, inject, containerless, bindable, bindingMode, observable, DOM } from 'aurelia-framework';
-import * as $ from 'jquery';
+import { customElement } from '@aurelia/runtime';
 
 @customElement('aut-news-ticker')
 export class JQueryNewsTicker {

@@ -1,5 +1,6 @@
+import { valueConverter } from '@aurelia/runtime';
 
-
+@valueConverter('filterBy')
 export class FilterByValueConverter {
 
     public toView(array: Array<any>, value: string, ...properties: any[]) {

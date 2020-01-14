@@ -1,29 +1,29 @@
-import { customElement, bindable, bindingMode, containerless, DOM } from 'aurelia-framework';
+import { customElement, bindable, BindingMode, containerless, DOM } from '@aurelia/runtime';
 
 export type FloatInputPlacement = 'sm' | 'md' | 'lg';
 @containerless()
 @customElement('abt-float-input')
 export class BootstrapFloatInput {
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public placeholder: string ;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public placeholderFontSize: string ;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public labelFontSize: string ;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public placeholderOpacity: string ;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public placeholderTop: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public size: FloatInputPlacement = 'md';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public type: string = 'text';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public labelColor: string ;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public placeholderColor: string ;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public required: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public readonly: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public value: string;
+  @bindable({ mode: BindingMode.oneTime }) public id: string;
+  @bindable({ mode: BindingMode.toView }) public style: string;
+  @bindable({ mode: BindingMode.toView }) public class: string;
+  @bindable({ mode: BindingMode.toView }) public placeholder: string ;
+  @bindable({ mode: BindingMode.toView }) public placeholderFontSize: string ;
+  @bindable({ mode: BindingMode.toView }) public labelFontSize: string ;
+  @bindable({ mode: BindingMode.toView }) public placeholderOpacity: string ;
+  @bindable({ mode: BindingMode.toView }) public placeholderTop: string;
+  @bindable({ mode: BindingMode.toView }) public size: FloatInputPlacement = 'md';
+  @bindable({ mode: BindingMode.toView }) public type: string = 'text';
+  @bindable({ mode: BindingMode.toView }) public labelColor: string ;
+  @bindable({ mode: BindingMode.toView }) public placeholderColor: string ;
+  @bindable({ mode: BindingMode.toView }) public required: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public readonly: boolean | string = false;
+  @bindable({ mode: BindingMode.twoWay }) public value: string;
   private floatInput: HTMLInputElement;
   private floatInputLabel: HTMLLabelElement;
   private floatInputTemplate: Element;
 
-  private attached() {
+  private afterAttach() {
 
     if (this.value) {
     this.floatInput.value = this.value;
@@ -86,7 +86,7 @@ export class BootstrapFloatInput {
                     font-size: ${this.labelFontSize || '75%'} !important;
                   }`;
 
-      DOM.injectStyles(style, null, null, 's' + id);
+      // TODO(fkleuver): add this api to v2 // DOM.injectStyles(style, null, null, 's' + id);
     }
   }
 }

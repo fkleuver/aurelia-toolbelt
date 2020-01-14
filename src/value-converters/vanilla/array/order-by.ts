@@ -1,5 +1,6 @@
+import { valueConverter } from '@aurelia/runtime';
 
-
+@valueConverter('orderBy')
 export class OrderByValueConverter {
 
   public toView(array: Array<any>, property: string, direction = 'desc') {

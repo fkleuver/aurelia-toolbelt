@@ -3,15 +3,10 @@ import 'jquery';
 
 // import * as toastr from 'toastr';
 
-import { singleton } from 'aurelia-dependency-injection';
-import { viewResources } from 'aurelia-framework';
 
-import { injectCss } from '../../../decorators/inject-css';
-
-
-@singleton()
 // @injectCss('aurelia-toolbelt/external-resources/css/toastr.css')
 // @injectCss('../../../external-resources/css/toastr.css')
+// TODO(fkleuver): need to add @singleton decorator to kernel for emitDecoratorMetadata to work in these cases
 export class ToastrService {
 
   constructor(private tr: Toastr) {

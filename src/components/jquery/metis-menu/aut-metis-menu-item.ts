@@ -1,11 +1,11 @@
-import { bindable, bindingMode, containerless, customElement } from 'aurelia-framework';
+import { bindable, BindingMode, containerless, customElement } from '@aurelia/runtime';
 
 
 @containerless()
 @customElement('aut-metis-menu-item')
 export class JQueryMetisItem {
 
-    @bindable({ defaultBindingMode: bindingMode.oneWay }) public href: string | null = null;
+    @bindable({ mode: BindingMode.toView }) public href: string | null = null;
 
 }
 

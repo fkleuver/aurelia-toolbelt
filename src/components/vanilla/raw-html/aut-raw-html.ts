@@ -1,7 +1,6 @@
 
-import { inject, customElement, containerless } from 'aurelia-framework';
+import { customElement, INode } from '@aurelia/runtime';
 
-@inject(Element)
 @customElement('aut-raw-html')
 export class RawHtmlRenderer {
 
@@ -10,10 +9,10 @@ export class RawHtmlRenderer {
   private renderer: HTMLDivElement;
   private dummy: HTMLDivElement;
 
-  constructor(private element: Element) {
+  constructor(@INode private element: Element) {
   }
 
-  private attached() {
+  private afterAttach() {
 
     this.content = this.dummy.innerHTML.replace('<!--slot-->' , '');
     this.dummy.remove();

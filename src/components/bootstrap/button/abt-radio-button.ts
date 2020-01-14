@@ -1,4 +1,4 @@
-import { inject, bindable, bindingMode, Disposable, BindingEngine, customElement, containerless } from 'aurelia-framework';
+import { inject, bindable, BindingMode, Disposable, BindingEngine, customElement, containerless } from '@aurelia/runtime';
 
 
 
@@ -7,28 +7,28 @@ import { inject, bindable, bindingMode, Disposable, BindingEngine, customElement
 @containerless()
 export class BootstrapRadioButton {
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public value: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public model: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public checked: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public matcher: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public disabled: boolean | string = false;
+  @bindable({ mode: BindingMode.twoWay }) public value: any;
+  @bindable({ mode: BindingMode.twoWay }) public model: any;
+  @bindable({ mode: BindingMode.twoWay }) public checked: any;
+  @bindable({ mode: BindingMode.twoWay }) public matcher: any;
+  @bindable({ mode: BindingMode.twoWay }) public disabled: boolean | string = false;
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string;
+  @bindable({ mode: BindingMode.oneTime }) public id: string;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public bsType: string = 'primary';
+  @bindable({ mode: BindingMode.oneTime }) public bsType: string = 'primary';
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public name: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public name: string = '';
 
   private state: boolean;
   private subscription: Disposable | null = null;
 
   private radioButton: HTMLInputElement;
 
-  constructor(private element: Element, private bindingEngine: BindingEngine) {
+  constructor(@INode private element: Element, private bindingEngine: BindingEngine) {
   }
 
   private changed() {
@@ -66,7 +66,7 @@ export class BootstrapRadioButton {
   }
 
 
-  private bind() {
+  private beforeBind() {
 
     this.disabled = this.disabled === true || this.disabled === 'true' || this.disabled === 'disabled'; // || this.element.hasAttribute('disabled');
     this.synchronizeView();

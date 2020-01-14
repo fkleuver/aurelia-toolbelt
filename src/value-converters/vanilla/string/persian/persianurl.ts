@@ -1,4 +1,4 @@
-import { valueConverter } from 'aurelia-framework';
+import { valueConverter } from '@aurelia/runtime';
 
 const persianJs = require('persianjs');
 

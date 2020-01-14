@@ -1,12 +1,11 @@
 import { SharedIndex } from './../../../utilities/vanilla/sharedIndex';
-import { inject, customElement, bindingMode, bindable, containerless, singleton } from 'aurelia-framework';
+import { customElement, BindingMode, bindable, containerless, INode } from '@aurelia/runtime';
 
-@inject(Element, SharedIndex)
 @containerless()
 @customElement('abt-carousel-item')
 export class CarouselItemCustomElement {
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public active: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public active: boolean | string = false;
 
   private isActive: boolean = false;
   private carouselItem: Element;
@@ -14,13 +13,13 @@ export class CarouselItemCustomElement {
 
   private times: number = 0;
 
-  constructor(private element: Element, private sharedController: SharedIndex) {
+  constructor(@INode private element: Element, private sharedController: SharedIndex) {
   }
 
   private createIndicatorHtml(id: string, index: number, beActive: boolean): any {
     return `<li style="cursor:pointer" data-target="#${id}" data-slide-to="${index}" class="${beActive ? 'active' : ''}" ></li>`;
   }
-  private attached() {
+  private afterAttach() {
 
     let carousel = this.carouselItem.parentElement.parentElement;
     this.times = this.sharedController.getAndIncrement(carousel.id);

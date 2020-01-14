@@ -1,17 +1,15 @@
-import { customAttribute, bindingMode, bindable } from 'aurelia-framework';
-import { inject } from 'aurelia-dependency-injection';
+import { customAttribute, BindingMode, bindable, INode } from '@aurelia/runtime';
 
 const InputMask = require('inputmask');
 
-@inject(Element)
 @customAttribute('aut-masked')
 export class MaskedInputCustomAttribute {
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay, primaryProperty: true }) public mask: String;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public regex: String | RegExp;
+  @bindable({ mode: BindingMode.toView, primary: true }) public mask: String;
+  @bindable({ mode: BindingMode.toView }) public regex: String | RegExp;
 
-  constructor(private element: Element) {
+  constructor(@INode private element: Element) {
   }
 
 

@@ -1,11 +1,8 @@
-import { transient, customElement, inject, bindable, bindingMode, observable, DOM, singleton, noView } from 'aurelia-framework';
-
 import * as zenscroll from 'zenscroll';
 
-@singleton()
 export class ZenscrollService {
   constructor() {
-    DOM.injectStyles(`body, .smooth-container { scroll-behavior: smooth }`);
+    // TODO(fkleuver): add this api to v2 // DOM.injectStyles(`body, .smooth-container { scroll-behavior: smooth }`);
   }
 
   public to(element: string | HTMLElement, duration?: number, onDone?: () => void) {
@@ -73,11 +70,4 @@ export class ZenscrollService {
       return zenscroll.createScroller(element, defaultDuration, edgeOffset);
     }
   }
-
-
-
-
-
-
-
 }

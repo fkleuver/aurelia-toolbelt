@@ -1,23 +1,20 @@
+import { containerless, customElement, bindable, BindingMode, INode } from '@aurelia/runtime';
 
 
-import { containerless, customElement, bindable, bindingMode, inject } from 'aurelia-framework';
-
-
-@inject(Element)
 @containerless()
 @customElement('abt-accordion-item')
 export class BootstrapAccordionItem {
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public title: string = '';
+  @bindable({ mode: BindingMode.toView }) public title: string = '';
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public active: boolean = false;
+  @bindable({ mode: BindingMode.oneTime }) public active: boolean = false;
 
   private collapse: HTMLElement;
 
-  constructor(private element: Element) {
+  constructor(@INode private element: Element) {
   }
 
   private onAnchorClick(event: Event) {

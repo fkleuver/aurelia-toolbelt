@@ -1,17 +1,14 @@
-import { inject, customElement, bindable, bindingMode, containerless } from 'aurelia-framework';
+import { customElement, bindable, BindingMode, containerless } from '@aurelia/runtime';
 
 
-
-
-@inject(Element)
 @containerless()
 @customElement('abt-toolbar')
 export class BootstrapToolbar {
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public label: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public id: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public label: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
 
 }

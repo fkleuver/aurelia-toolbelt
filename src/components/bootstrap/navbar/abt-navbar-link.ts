@@ -1,30 +1,28 @@
-import { DOM, containerless, inject, bindingMode, bindable } from 'aurelia-framework';
-import { customElement } from 'aurelia-templating';
+import { containerless, customElement, bindable, BindingMode } from '@aurelia/runtime';
 
-@inject(Element)
 @containerless()
 @customElement('abt-navbar-link')
 export class BootstrapNavBarLink {
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string;
+  @bindable({ mode: BindingMode.toView }) public class: string;
+  @bindable({ mode: BindingMode.toView }) public style: string;
+  @bindable({ mode: BindingMode.oneTime }) public id: string;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public href: string;
+  @bindable({ mode: BindingMode.toView }) public href: string;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public linkClass: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public linkStyle: string;
+  @bindable({ mode: BindingMode.toView }) public linkClass: string;
+  @bindable({ mode: BindingMode.toView }) public linkStyle: string;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public active: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public disabled: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public active: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public disabled: boolean | string = false;
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public click: Function;
+  @bindable({ mode: BindingMode.twoWay }) public click: Function;
 
 
   private navItem: Element;
   private navItemLink: Element;
 
 
-  private attached() {
+  private afterAttach() {
     let isActive = Boolean(this.active) || this.navItem.hasAttribute('active');
     let isDisabled = Boolean(this.disabled) || this.navItem.hasAttribute('disabled');
     if (isActive) {

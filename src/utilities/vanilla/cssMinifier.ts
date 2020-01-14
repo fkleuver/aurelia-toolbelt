@@ -1,7 +1,6 @@
-// import { singleton } from 'aurelia-framework';
+// import { singleton } from '@aurelia/runtime';
 // const CleanCSS = require('clean-css');
 
-// @singleton()
 // export class CssMinifier {
 //     public minify(content: string): string {
 //         let options = { /* options */ };

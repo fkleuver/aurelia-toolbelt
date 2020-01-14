@@ -1,28 +1,29 @@
-import { customElement, inject, containerless, bindable, bindingMode } from 'aurelia-framework';
-import { EventAggregator } from 'aurelia-event-aggregator';
+import { customElement, containerless, bindable, BindingMode, INode } from '@aurelia/runtime';
 import { BootstrapDropdownSelectedItemChanged } from './abt-dropdown-selected-item-changed';
+import { IEventAggregator } from '@aurelia/kernel';
 
-
-@inject(EventAggregator, Element)
 @containerless()
 @customElement('abt-dropdown-item')
 export class BootstrapDropdownItem {
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public disabled: boolean | string = null;
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public disabled: boolean | string = null;
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public value: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public model: any;
+  @bindable({ mode: BindingMode.twoWay }) public value: any;
+  @bindable({ mode: BindingMode.twoWay }) public model: any;
 
   private dropdownId: any;
 
   private item: HTMLDivElement;
 
-  constructor(private ea: EventAggregator, private element: Element) { }
+  constructor(
+    @IEventAggregator private ea: IEventAggregator,
+    @INode private element: Element,
+  ) { }
 
-  private attached() {
+  private afterAttach() {
 
     this.dropdownId = this.item.parentElement.parentElement.getAttribute('data-id');
 

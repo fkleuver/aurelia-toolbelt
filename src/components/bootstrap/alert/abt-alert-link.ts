@@ -1,13 +1,9 @@
-import { inject, containerless, customElement, bindable, bindingMode } from 'aurelia-framework';
+import { containerless, customElement, bindable, BindingMode } from '@aurelia/runtime';
 
-
-
-
-@inject(Element)
 @containerless()
 @customElement('abt-alert-link')
 export class BootstrapAlertLink {
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public href: string = '';
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public disabled: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public id: string = '';
+  @bindable({ mode: BindingMode.toView }) public href: string = '';
+  @bindable({ mode: BindingMode.twoWay }) public disabled: boolean | string = false;
 }

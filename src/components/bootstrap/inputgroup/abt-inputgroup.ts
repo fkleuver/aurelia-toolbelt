@@ -1,4 +1,4 @@
-import { customElement, inject, bindable, bindingMode, BindingEngine, containerless } from 'aurelia-framework';
+import { customElement, bindable, BindingMode, containerless } from '@aurelia/runtime';
 
 
 export type Size = 'sm' | 'md' | 'lg';
@@ -6,14 +6,14 @@ export type Size = 'sm' | 'md' | 'lg';
 @containerless()
 @customElement('abt-inputgroup')
 export class BootstrapInputGroupCustomElement {
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public size: Size = 'md';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string;
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public size: Size = 'md';
+  @bindable({ mode: BindingMode.oneTime }) public id: string;
 
   private inputGroup: Element;
   private inputGroupTemplate: Element;
-  private attached() {
+  private afterAttach() {
 
     if (this.size === 'sm') {
       this.inputGroup.classList.add('input-group-sm');

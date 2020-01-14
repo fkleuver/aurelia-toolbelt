@@ -1,4 +1,4 @@
-import { customElement, inject, bindable, bindingMode, BindingEngine, containerless } from 'aurelia-framework';
+import { customElement, bindable, BindingMode, containerless } from '@aurelia/runtime';
 
 export type TooltipPlacement = 'auto' | 'top' | 'bottom' | 'left' | 'right';
 export type TooltipBoundary = 'viewport' | 'window' | 'scrollParent';
@@ -6,33 +6,32 @@ export type TooltipBoundary = 'viewport' | 'window' | 'scrollParent';
 import * as $ from 'jquery';
 
 @containerless()
-@inject(Element)
 @customElement('abt-tooltip')
 export class BootstrapTooltipCustomElement {
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public container: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public delay: number | object = 0;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public placement: TooltipPlacement | Function = 'top';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public selector: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public animation: boolean | string = true;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public html: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public trigger: string = 'hover focus';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public offset: number | string = 0;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public fallbackPlacement: string | string[] = 'flip';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public boundary: TooltipBoundary = 'scrollParent';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public template: string =
+  @bindable({ mode: BindingMode.toView }) public container: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public delay: number | object = 0;
+  @bindable({ mode: BindingMode.toView }) public placement: TooltipPlacement | Function = 'top';
+  @bindable({ mode: BindingMode.toView }) public selector: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public animation: boolean | string = true;
+  @bindable({ mode: BindingMode.toView }) public html: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public trigger: string = 'hover focus';
+  @bindable({ mode: BindingMode.toView }) public offset: number | string = 0;
+  @bindable({ mode: BindingMode.toView }) public fallbackPlacement: string | string[] = 'flip';
+  @bindable({ mode: BindingMode.toView }) public boundary: TooltipBoundary = 'scrollParent';
+  @bindable({ mode: BindingMode.toView }) public template: string =
     '<div class="tooltip" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>';
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsShow: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsShown: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsHide: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsHidden: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsInserted: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsShow: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsShown: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsHide: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsHidden: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsInserted: Function;
 
   private tooltip: Element;
   private parentElement: HTMLElement;
 
-  private attached() {
+  private afterAttach() {
     this.parentElement = this.tooltip.parentElement;
     let slotContent = this.html ? this.tooltip.innerHTML : this.tooltip.textContent;
 
@@ -105,7 +104,7 @@ export class BootstrapTooltipCustomElement {
     }
   }
 
-  private detached() {
+  private afterDetach() {
     $(this.parentElement).tooltip('dispose');
   }
 

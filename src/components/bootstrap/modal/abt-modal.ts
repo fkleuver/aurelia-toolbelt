@@ -1,41 +1,40 @@
-import { bindingMode, bindable, containerless, customElement, inject, TaskQueue } from 'aurelia-framework';
+import { BindingMode, bindable, customElement, INode } from '@aurelia/runtime';
 
 import * as $ from 'jquery';
 
-@inject(Element)
 // @containerless()
 @customElement('abt-modal')
 export class BootstrapModal {
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public size: string = 'md';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public size: string = 'md';
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public animate: string | boolean = true;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public dismissible: string | boolean = true;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public centered: string | boolean = false;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public backdrop: string | boolean = true;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public keyboard: string | boolean = true;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public focus: string | boolean = true;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public openBy: HTMLElement;
+  @bindable({ mode: BindingMode.oneTime }) public animate: string | boolean = true;
+  @bindable({ mode: BindingMode.oneTime }) public dismissible: string | boolean = true;
+  @bindable({ mode: BindingMode.oneTime }) public centered: string | boolean = false;
+  @bindable({ mode: BindingMode.oneTime }) public backdrop: string | boolean = true;
+  @bindable({ mode: BindingMode.oneTime }) public keyboard: string | boolean = true;
+  @bindable({ mode: BindingMode.oneTime }) public focus: string | boolean = true;
+  @bindable({ mode: BindingMode.oneTime }) public openBy: HTMLElement;
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public visible: string | boolean = false;
-
-
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsShow: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsShown: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsHide: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsHidden: Function;
+  @bindable({ mode: BindingMode.twoWay }) public visible: string | boolean = false;
 
 
-  // @bindable({ defaultBindingMode: bindingMode.oneWay }) public data: any;
+  @bindable({ mode: BindingMode.twoWay }) public bsShow: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsShown: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsHide: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsHidden: Function;
+
+
+  // @bindable({ mode: BindingMode.toView }) public data: any;
 
   private modal: HTMLDivElement;
 
   public jqModal: JQuery;
 
-  constructor(private element: Element) { }
+  constructor(@INode private element: Element) { }
 
   private setOpenerProperties(open: any) {
 
@@ -141,7 +140,7 @@ export class BootstrapModal {
 
   }
 
-  private detached() {
+  private afterDetach() {
     console.log('SHG: detached called');
     $(this.modal).off('show.bs.modal');
     $(this.modal).off('shown.bs.modal');

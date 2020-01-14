@@ -1,28 +1,26 @@
-import { DOM, containerless, inject, bindingMode, bindable, children } from 'aurelia-framework';
-import { customElement } from 'aurelia-templating';
+import { containerless, customElement, bindable, BindingMode } from '@aurelia/runtime';
 
 export type ExpandSize = 'sm' | 'md' | 'lg' | 'xl';
 export type NavbarColorType = 'light' | 'dark';
 export type NavPlacement = '' | 'fixed-top' | 'fixed-bottom' | 'sticky-top';
 export type BackgroundColorType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
 
-@inject(Element)
 @customElement('abt-navbar')
 @containerless()
 export class BootstrapNavBar {
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string;
+  @bindable({ mode: BindingMode.toView }) public class: string;
+  @bindable({ mode: BindingMode.toView }) public style: string;
+  @bindable({ mode: BindingMode.oneTime }) public id: string;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public navbarColorType: NavbarColorType = 'light';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public backgroundColorType: BackgroundColorType = 'light';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public expandSize: ExpandSize = 'lg';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public placement: NavPlacement = '';
+  @bindable({ mode: BindingMode.toView }) public navbarColorType: NavbarColorType = 'light';
+  @bindable({ mode: BindingMode.toView }) public backgroundColorType: BackgroundColorType = 'light';
+  @bindable({ mode: BindingMode.toView }) public expandSize: ExpandSize = 'lg';
+  @bindable({ mode: BindingMode.toView }) public placement: NavPlacement = '';
 
   private navbar: Element;
   private navbarCollapse: Element;
 
-  private attached() {
+  private afterAttach() {
 
     if (this.navbarColorType) {
       this.navbar.classList.add(`navbar-${this.navbarColorType}`);

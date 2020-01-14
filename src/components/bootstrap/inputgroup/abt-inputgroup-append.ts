@@ -1,10 +1,10 @@
-import { customElement, inject, bindable, bindingMode, BindingEngine, containerless } from 'aurelia-framework';
+import { customElement, bindable, BindingMode, containerless } from '@aurelia/runtime';
 @containerless()
 @customElement('abt-inputgroup-append')
 export class BootstrapInputGroupAppendCustomElement {
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string;
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public id: string;
 
 }
 

@@ -1,9 +1,10 @@
 
+import { valueConverter } from '@aurelia/runtime';
 import { FuseOptions } from 'fuse.js';
 import * as Fuse from 'fuse.js';
 
 
-
+@valueConverter('fuse')
 export class FuseValueConverter {
 
 

@@ -1,29 +1,27 @@
 import {
-  customAttribute, autoinject, bindable,
-  customElement, inject, bindingMode,
-  Disposable, BindingEngine, children, child
-} from 'aurelia-framework';
+  bindable,
+  customElement, BindingMode, INode
+} from '@aurelia/runtime';
 // import 'pretty-checkbox/dist/pretty-checkbox.css';
 
 
-@inject(Element, BindingEngine)
 @customElement('aut-radio')
 export class PrettyRadioButtonCustomElement {
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public value: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public model: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public checked: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public matcher: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public disabled: boolean | string = false;
+  @bindable({ mode: BindingMode.twoWay }) public value: any;
+  @bindable({ mode: BindingMode.twoWay }) public model: any;
+  @bindable({ mode: BindingMode.twoWay }) public checked: any;
+  @bindable({ mode: BindingMode.twoWay }) public matcher: any;
+  @bindable({ mode: BindingMode.twoWay }) public disabled: boolean | string = false;
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public name: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public switch: boolean | String = false;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public outlined: boolean | String = false;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public color: string;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public offColor: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public offLabel: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public animation: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public name: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public switch: boolean | String = false;
+  @bindable({ mode: BindingMode.oneTime }) public outlined: boolean | String = false;
+  @bindable({ mode: BindingMode.oneTime }) public color: string;
+  @bindable({ mode: BindingMode.oneTime }) public offColor: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public offLabel: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public animation: string = '';
 
 
   private thickCss: string;
@@ -35,7 +33,7 @@ export class PrettyRadioButtonCustomElement {
 
   private radioButton: HTMLInputElement;
 
-  constructor(private element: Element, private bindingEngine: BindingEngine) { }
+  constructor(@INode private element: Element) { }
 
   private changed() {
     if (this.disabled) {
@@ -73,7 +71,7 @@ export class PrettyRadioButtonCustomElement {
   }
 
 
-  private bind() {
+  private beforeBind() {
 
     if (!this.element.hasAttribute) {
       console.warn(this.element);

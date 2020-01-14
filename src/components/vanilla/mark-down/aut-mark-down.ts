@@ -1,9 +1,7 @@
 
-import { customElement, bindable, bindingMode, inject } from 'aurelia-framework';
-import { HttpClient } from 'aurelia-http-client';
+import { customElement, bindable, BindingMode } from '@aurelia/runtime';
+import { HttpClient } from '@aurelia/fetch-client';
 
-
-@inject(HttpClient)
 @customElement('aut-mark-down')
 export class MarkDownItCustomElement {
 
@@ -12,11 +10,11 @@ export class MarkDownItCustomElement {
   private editor: HTMLTextAreaElement;
   private preview: HTMLDivElement;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public showToolBar: boolean = false;
+  @bindable({ mode: BindingMode.toView }) public showToolBar: boolean = false;
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public showPreview: boolean = true;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public showEditor: boolean = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public src: string = '';
+  @bindable({ mode: BindingMode.twoWay }) public showPreview: boolean = true;
+  @bindable({ mode: BindingMode.twoWay }) public showEditor: boolean = false;
+  @bindable({ mode: BindingMode.toView }) public src: string = '';
 
   private slotContainer: HTMLDivElement;
 

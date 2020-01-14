@@ -1,38 +1,36 @@
 import { JsTools } from './../../../utilities/vanilla/jsTools';
 import { PasswordMeter, IResult } from 'password-meter';
 import {
-  customAttribute, autoinject, bindable,
-  customElement, inject, bindingMode,
-  Disposable, BindingEngine
-} from 'aurelia-framework';
+  bindable,
+  customElement, BindingMode,
+} from '@aurelia/runtime';
 
 export type ButtonColorType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
 export type ErrorDisplayType = 'none' | 'tooltip' | 'list';
 
-@inject(JsTools)
 @customElement('abt-password')
 export class PasswordCustomElement {
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public inputClass: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public inputStyle: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public buttonClass: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public buttonStyle: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public buttonColorType: ButtonColorType = 'secondary';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public errorIcon: string = 'fa fa-times';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public showPasswordIcon: string = 'fa fa-eye';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public hidePasswordIcon: string = 'fa fa-eye-slash';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public progressBarHeight: string = '5px';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public errorDisplayType: ErrorDisplayType = 'none';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public showProgressBar: boolean | string = true;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public size: string = 'md';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public showPercent: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public passwordVisibility: boolean | string = true;
+  @bindable({ mode: BindingMode.toView }) public inputClass: string;
+  @bindable({ mode: BindingMode.toView }) public inputStyle: string;
+  @bindable({ mode: BindingMode.toView }) public buttonClass: string;
+  @bindable({ mode: BindingMode.toView }) public buttonStyle: string;
+  @bindable({ mode: BindingMode.toView }) public buttonColorType: ButtonColorType = 'secondary';
+  @bindable({ mode: BindingMode.toView }) public errorIcon: string = 'fa fa-times';
+  @bindable({ mode: BindingMode.toView }) public showPasswordIcon: string = 'fa fa-eye';
+  @bindable({ mode: BindingMode.toView }) public hidePasswordIcon: string = 'fa fa-eye-slash';
+  @bindable({ mode: BindingMode.toView }) public progressBarHeight: string = '5px';
+  @bindable({ mode: BindingMode.toView }) public errorDisplayType: ErrorDisplayType = 'none';
+  @bindable({ mode: BindingMode.toView }) public showProgressBar: boolean | string = true;
+  @bindable({ mode: BindingMode.toView }) public size: string = 'md';
+  @bindable({ mode: BindingMode.toView }) public showPercent: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public passwordVisibility: boolean | string = true;
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public text: string;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public scoreRange: object = null;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public requirements: object = null;
+  @bindable({ mode: BindingMode.twoWay }) public text: string;
+  @bindable({ mode: BindingMode.twoWay }) public scoreRange: object = null;
+  @bindable({ mode: BindingMode.twoWay }) public requirements: object = null;
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public passwordChanged: Function;
+  @bindable({ mode: BindingMode.twoWay }) public passwordChanged: Function;
 
   private isInvisible: boolean = true;
   private txtPassword: HTMLInputElement;
@@ -53,7 +51,7 @@ export class PasswordCustomElement {
   }
 
 
-  private attached() {
+  private afterAttach() {
 
     // tslint:disable-next-line:max-line-length
     this.showProgressBar = (this.showProgressBar === '' && this.passwordTemplate.hasAttribute('show-progress-bar')) || this.showProgressBar.toString() === 'true';

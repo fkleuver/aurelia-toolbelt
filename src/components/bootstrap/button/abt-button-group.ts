@@ -1,26 +1,23 @@
-import { inject, customElement, bindable, bindingMode, containerless } from 'aurelia-framework';
+import {  customElement, bindable, BindingMode, containerless, INode } from '@aurelia/runtime';
 
 
-
-
-@inject(Element)
 @containerless()
 @customElement('abt-button-group')
 export class BootstrapButtonGroup {
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public label: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public size: string = 'md';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public id: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public label: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public size: string = 'md';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public toggle: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public toggle: boolean | string = false;
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public vertical: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public vertical: boolean | string = false;
 
-  constructor(private element: Element) { }
+  constructor(@INode private element: Element) { }
 
-  private attached() {
+  private afterAttach() {
     const onlyVerticalAttribute = (this.vertical === '' && this.element.hasAttribute('vertical'));
     this.vertical = onlyVerticalAttribute || this.vertical === 'true' || this.vertical === true;
 

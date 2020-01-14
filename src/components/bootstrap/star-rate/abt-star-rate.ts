@@ -1,40 +1,40 @@
 
-import { bindable, bindingMode, inject, children, computedFrom, customElement } from 'aurelia-framework';
+import { bindable, BindingMode, children, customElement, INode } from '@aurelia/runtime';
 
-@inject(Element)
 @customElement('abt-star-rate')
 export class BootstrapStarRate {
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public rtl: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public rtl: boolean | string = false;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public type: string = 'primary';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public color: string | null = null;
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public type: string = 'primary';
+  @bindable({ mode: BindingMode.toView }) public color: string | null = null;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public maxRate: number = 5;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public disabled: boolean | string = false;
-
-
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public fullStar = 'fa fa-star';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public emptyStar = 'fa fa-star-o';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public halfStar: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public maxRate: number = 5;
+  @bindable({ mode: BindingMode.toView }) public disabled: boolean | string = false;
 
 
+  @bindable({ mode: BindingMode.oneTime }) public fullStar = 'fa fa-star';
+  @bindable({ mode: BindingMode.oneTime }) public emptyStar = 'fa fa-star-o';
+  @bindable({ mode: BindingMode.oneTime }) public halfStar: boolean | string = false;
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public rate: number = 0;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public rateChanged: Function;
 
 
-  @children('i') private icons: Array<HTMLElement>;
+  @bindable({ mode: BindingMode.twoWay }) public rate: number = 0;
+  @bindable({ mode: BindingMode.twoWay }) public rateChanged: Function;
+
+
+  // TODO(fkleuver): Just. Ugh. We need a cleaner overload for the simple case :-)
+  @children({ query: projector => (projector.children as HTMLElement[]).filter(x => x.nodeName === 'I') }) private icons: Array<HTMLElement>;
   private mouseRate = -1;
   private showHalfStar = false;
   private halfStarClass: string | null = null; // fa fa-star-half-o
 
-  constructor(private element: Element) { }
+  constructor(@INode private element: Element) { }
 
-  private bind() {
+  private beforeBind() {
     const onlyDisabledAttribute = (this.disabled === '' && this.element.hasAttribute('read-only'));
     this.disabled = onlyDisabledAttribute || this.disabled.toString() === 'true';
 
@@ -91,20 +91,20 @@ export class BootstrapStarRate {
   }
 
 
-  @computedFrom('mouseRate', 'rate')
+  // NOTE(fkleuver): computed should work out of the box now
   private get currentValue() {
     const x = (this.mouseRate !== -1 ? this.mouseRate : this.rate);
 
     return x;
   }
 
-  @computedFrom('currentValue')
+  // NOTE(fkleuver): computed should work out of the box now
   private get hasFloatingPoint() {
     const mode = this.currentValue % 1;
     return mode > 0 && mode < 1;
   }
 
-  @computedFrom('currentValue')
+  // NOTE(fkleuver): computed should work out of the box now
   get fixedPoint() {
     return Math.floor(this.currentValue);
   }

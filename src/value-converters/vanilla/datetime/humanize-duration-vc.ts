@@ -1,5 +1,5 @@
 
-import { valueConverter } from 'aurelia-binding';
+import { valueConverter } from '@aurelia/runtime';
 
 const humanizeDuration = require('humanize-duration');
 

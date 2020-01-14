@@ -1,5 +1,6 @@
+import { valueConverter } from '@aurelia/runtime';
 
-
+@valueConverter('groupBy')
 export class GroupByValueConverter {
 
     public toView(array: Array<any>, property: string): Array<any> {

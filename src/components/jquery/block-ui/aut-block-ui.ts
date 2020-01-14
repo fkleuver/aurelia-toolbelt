@@ -1,20 +1,18 @@
 import { SharedOptions } from './sharedOptions';
 import { JsTools } from './../../../utilities/vanilla/jsTools';
-import { transient, customElement, inject, containerless, bindable, bindingMode, observable, DOM, singleton } from 'aurelia-framework';
+import { customElement, bindable, BindingMode, INode } from '@aurelia/runtime';
 
 import * as $ from 'jquery';
 import 'aureliatoolbelt-thirdparty/jquery.blockUI/jquery.blockUI.js';
 import { IAutBlockUIOption } from './aut-block-ui-option';
-import { stringify } from 'querystring';
 
 @customElement('aut-block-ui')
-@inject(Element, 'aut-block-ui-option', JsTools, SharedOptions)
 export class JQueryBlockUI {
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public settings: IAutBlockUIOption = null;
+  @bindable({ mode: BindingMode.toView }) public settings: IAutBlockUIOption = null;
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public block: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public blockPage: boolean | string = false;
+  @bindable({ mode: BindingMode.twoWay }) public block: boolean | string = false;
+  @bindable({ mode: BindingMode.twoWay }) public blockPage: boolean | string = false;
 
   private content: HTMLDivElement;
   private spinnerMessage: string = null;
@@ -23,9 +21,13 @@ export class JQueryBlockUI {
   private allOptions = {};
   private id: string = '';
 
-  // tslint:disable-next-line:max-line-length
-  constructor(private element: Element, private option: IAutBlockUIOption, private jsTools: JsTools, private sharedOptions: SharedOptions) {
-  }
+  constructor(
+    @INode private element: Element,
+    // NOTE(fkleuver): string literal replaced with explicitly created param decorator ("the au2 way")
+    @IAutBlockUIOption private option: IAutBlockUIOption,
+    private jsTools: JsTools,
+    private sharedOptions: SharedOptions,
+  ) {}
 
   // The component has content or not.
   private hasContent() {
@@ -36,7 +38,7 @@ export class JQueryBlockUI {
     return false;
   }
 
-  private attached() {
+  private afterAttach() {
     this.id = this.content.id;
     this.elementId = `#${this.id}`;
 
@@ -137,7 +139,7 @@ export class JQueryBlockUI {
       height: ${size}${unit} !important;
       ${!isClass ? spinnerBgColor : ''}
     }`;
-    DOM.injectStyles(style, null, null, 's' + id);
+    // TODO(fkleuver): add this api to v2 // DOM.injectStyles(style, null, null, 's' + id);
 
     // tslint:disable-next-line:max-line-length
     this.spinnerMessage = `<div class="bounce"><div class="bounce1 ${isClass ? spinnerBgColor : ''} ${'b' + id}"></div><div class="bounce2 ${isClass ? spinnerBgColor : ''} ${'b' + id}"></div><div class="bounce3 ${isClass ? spinnerBgColor : ''} ${'b' + id}"></div></div>`;
@@ -224,7 +226,7 @@ export class JQueryBlockUI {
     return size;
   }
 
-  private detached() {
+  private afterDetach() {
     $.unblockUI();
     $(this.content).unblock();
     this.sharedOptions.dispose();

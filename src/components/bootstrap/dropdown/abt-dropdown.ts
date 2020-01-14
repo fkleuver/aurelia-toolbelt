@@ -1,44 +1,43 @@
-import { customElement, inject, containerless, bindable, bindingMode, children, Disposable, BindingEngine, TaskQueue } from 'aurelia-framework';
-import { EventAggregator } from 'aurelia-event-aggregator';
+import { customElement, bindable, BindingMode, INode, IScheduler } from '@aurelia/runtime';
 import { BootstrapDropdownSelectedItemChanged } from './abt-dropdown-selected-item-changed';
 
 
 import * as $ from 'jquery';
 import { Uuid } from '../../../utilities/vanilla/uuid';
+import { IEventAggregator, IDisposable } from '@aurelia/kernel';
 
 // export type BoundaryType = 'viewport' | 'window' | 'scrollParent';
 
-@inject(Element, EventAggregator, Uuid, TaskQueue)
 // @containerless()
 @customElement('abt-dropdown')
 export class BootstrapDropDown {
 
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public alignRight: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public boundary: string | Element = 'scrollParent';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public type: string = 'primary';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public offset: string | number = 0;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public flip: boolean = true;
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public size: string = 'md';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public placement: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public split: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public alignRight: boolean | string = false;
+  @bindable({ mode: BindingMode.oneTime }) public boundary: string | Element = 'scrollParent';
+  @bindable({ mode: BindingMode.oneTime }) public type: string = 'primary';
+  @bindable({ mode: BindingMode.oneTime }) public offset: string | number = 0;
+  @bindable({ mode: BindingMode.oneTime }) public flip: boolean = true;
+  @bindable({ mode: BindingMode.oneTime }) public size: string = 'md';
+  @bindable({ mode: BindingMode.oneTime }) public placement: string = '';
+  @bindable({ mode: BindingMode.oneTime }) public split: boolean | string = false;
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public disabled: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public menuClass: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public menuStyle: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public title: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public disabled: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public menuClass: string = '';
+  @bindable({ mode: BindingMode.toView }) public menuStyle: string = '';
+  @bindable({ mode: BindingMode.toView }) public title: string = '';
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public value: any;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public matcher: any;
+  @bindable({ mode: BindingMode.twoWay }) public value: any;
+  @bindable({ mode: BindingMode.twoWay }) public matcher: any;
 
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public click: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public changed: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsShow: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsShown: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsHide: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsHidden: Function;
+  @bindable({ mode: BindingMode.twoWay }) public click: Function;
+  @bindable({ mode: BindingMode.twoWay }) public changed: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsShow: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsShown: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsHide: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsHidden: Function;
 
   private id: any;
   private isBusy: boolean = false;
@@ -47,11 +46,16 @@ export class BootstrapDropDown {
   private itemsValuesOrModels: Array<any> = [];
 
   private task: Promise<void> | null = null;
-  private subscription: Disposable | null = null;
+  private subscription: IDisposable | null = null;
 
   private dropdown: any;
 
-  constructor(private element: Element, private ea: EventAggregator, uuid: Uuid, private taskQueue: TaskQueue) { // , private bindingEngine: BindingEngine) {
+  constructor(
+    @INode private element: Element,
+    @IEventAggregator private ea: IEventAggregator,
+    uuid: Uuid,
+    @IScheduler private scheduler: IScheduler,
+  ) { // , private bindingEngine: BindingEngine) {
     this.id = uuid.Uuidv4ForId();
   }
 
@@ -94,7 +98,7 @@ export class BootstrapDropDown {
 
   // #endregion
 
-  private attached() {
+  private afterAttach() {
 
     // const onlySplitAttribute = (this.split === '' && this.element.hasAttribute('split'));
     this.split = (this.split === '' && this.element.hasAttribute('split')) || this.split.toString() === 'true';
@@ -118,11 +122,11 @@ export class BootstrapDropDown {
         break;
     }
 
-    this.taskQueue.queueTask(() => this.afterAttached());
-
+    // NOTE(fkleuver): this is what maps directly to TaskQueue.queueTask in terms of timing (both use setTimeout), but I'm quite sure this is not actually needed. If it is, though, it might be preferable to use queueRenderTask instead (which uses rAF)
+    this.scheduler.queueMacroTask(() => this.afterAttached());
   }
 
-  private bind() {
+  private beforeBind() {
 
     // this.element.children.item(0).setAttribute('data-id', this.id);
 
@@ -221,7 +225,7 @@ export class BootstrapDropDown {
     }
   }
 
-  private detached() {
+  private afterDetach() {
     this.task = null;
     $(this.dropdown).off('show.bs.tab');
     $(this.dropdown).off('shown.bs.tab');

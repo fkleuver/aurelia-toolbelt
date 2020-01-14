@@ -1,4 +1,4 @@
-import { containerless, customElement, bindable, bindingMode } from 'aurelia-framework';
+import { containerless, customElement, bindable, BindingMode } from '@aurelia/runtime';
 
 
 
@@ -7,8 +7,8 @@ import { containerless, customElement, bindable, bindingMode } from 'aurelia-fra
 export class BootstrapAccordion {
 
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string = '';
+  @bindable({ mode: BindingMode.toView }) public class: string = '';
+  @bindable({ mode: BindingMode.toView }) public style: string = '';
 
 
 }

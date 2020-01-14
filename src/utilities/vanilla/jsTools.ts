@@ -1,7 +1,5 @@
-import { singleton } from 'aurelia-framework';
 
 // https://www.webbjocke.com/javascript-check-data-types/
-@singleton()
 export class JsTools {
 
   // Returns if a value is a string

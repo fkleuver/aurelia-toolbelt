@@ -1,4 +1,4 @@
-import { customElement, inject, bindable, bindingMode, BindingEngine, containerless } from 'aurelia-framework';
+import { customElement, bindable, BindingMode, containerless } from '@aurelia/runtime';
 
 export type PopoverPlacement = 'auto' | 'top' | 'bottom' | 'left' | 'right';
 export type PopoverBoundary = 'viewport' | 'window' | 'scrollParent';
@@ -9,31 +9,31 @@ import * as $ from 'jquery';
 @customElement('abt-popover')
 export class BootstrapPopoverCustomElement {
 
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public animation: boolean | string = true;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public container: boolean | string | Element = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public delay: number | object = 0;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public html: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public placement: PopoverPlacement | Function = 'right';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public selector: boolean | string = false;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public title: string | Element | Function = '';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public trigger: string = 'click';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public offset: number | string = 0;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public fallbackPlacement: string | string[] = 'flip';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public boundary: PopoverBoundary = 'scrollParent';
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public template: string =
+  @bindable({ mode: BindingMode.toView }) public animation: boolean | string = true;
+  @bindable({ mode: BindingMode.toView }) public container: boolean | string | Element = false;
+  @bindable({ mode: BindingMode.toView }) public delay: number | object = 0;
+  @bindable({ mode: BindingMode.toView }) public html: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public placement: PopoverPlacement | Function = 'right';
+  @bindable({ mode: BindingMode.toView }) public selector: boolean | string = false;
+  @bindable({ mode: BindingMode.toView }) public title: string | Element | Function = '';
+  @bindable({ mode: BindingMode.toView }) public trigger: string = 'click';
+  @bindable({ mode: BindingMode.toView }) public offset: number | string = 0;
+  @bindable({ mode: BindingMode.toView }) public fallbackPlacement: string | string[] = 'flip';
+  @bindable({ mode: BindingMode.toView }) public boundary: PopoverBoundary = 'scrollParent';
+  @bindable({ mode: BindingMode.toView }) public template: string =
     '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>';
 
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsShow: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsShown: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsHide: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsHidden: Function;
-  @bindable({ defaultBindingMode: bindingMode.twoWay }) public bsInserted: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsShow: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsShown: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsHide: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsHidden: Function;
+  @bindable({ mode: BindingMode.twoWay }) public bsInserted: Function;
 
   private popover: Element;
   private popoverTemplate: Element;
   private parentElement: HTMLElement;
 
-  private attached() {
+  private afterAttach() {
     this.parentElement = this.popover.parentElement;
     let slotContent = this.html ? this.popover.innerHTML : this.popover.textContent;
 
@@ -106,7 +106,7 @@ export class BootstrapPopoverCustomElement {
     }
   }
 
-  private detached() {
+  private afterDetach() {
     // $(this.parentElement).popover('hide');
     $(this.parentElement).popover('dispose');
   }

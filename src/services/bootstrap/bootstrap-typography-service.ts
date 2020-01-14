@@ -1,6 +1,3 @@
-import { singleton, noView } from 'aurelia-framework';
-
-@singleton()
 export class BootstrapTypographyService {
 
   public blue: string;

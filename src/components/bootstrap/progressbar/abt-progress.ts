@@ -1,10 +1,10 @@
-import { inject, customAttribute, bindingMode, bindable, customElement, DOM, containerless } from 'aurelia-framework';
+import { BindingMode, bindable, customElement } from '@aurelia/runtime';
 
 @customElement('abt-progress')
 export class BootstrapProgress {
-  @bindable({ defaultBindingMode: bindingMode.oneTime }) public id: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public class: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public style: string;
-  @bindable({ defaultBindingMode: bindingMode.oneWay }) public height: string;
+  @bindable({ mode: BindingMode.oneTime }) public id: string;
+  @bindable({ mode: BindingMode.toView }) public class: string;
+  @bindable({ mode: BindingMode.toView }) public style: string;
+  @bindable({ mode: BindingMode.toView }) public height: string;
 
 }
